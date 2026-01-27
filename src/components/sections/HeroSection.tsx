@@ -8,7 +8,7 @@ export function HeroSection() {
   const { t } = useLanguage();
 
   return (
-    <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-primary">
+    <section className="relative min-h-[75vh] lg:min-h-[80vh] flex items-center overflow-hidden bg-primary">
       {/* Decorative Circles - Vibrant, defined, visible through characters */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Coral Grande - behind group, center-left */}
@@ -132,7 +132,7 @@ export function HeroSection() {
               <img
                 src={heroImage}
                 alt="Jovens moçambicanos com smartphone"
-                className="w-full h-auto min-h-[500px] lg:min-h-[600px] max-h-[700px] object-contain object-bottom drop-shadow-2xl"
+                className="w-full h-auto min-h-[350px] lg:min-h-[450px] object-contain object-center drop-shadow-2xl"
               />
             </div>
 
@@ -181,7 +181,7 @@ export function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1, duration: 0.6 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:flex"
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 hidden lg:flex"
         >
           <div className="flex flex-col items-center gap-2">
             <span className="text-white/60 text-xs uppercase tracking-widest">Scroll</span>
