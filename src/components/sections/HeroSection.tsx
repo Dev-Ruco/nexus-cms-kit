@@ -1,50 +1,63 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Play, Wifi } from 'lucide-react';
+import { ArrowRight, Play } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import heroImage from '@/assets/hero-photo.jpg';
+
+// Organic connection lines SVG component
+function ConnectionLines() {
+  return (
+    <svg
+      className="absolute -right-8 top-1/4 w-32 h-48 opacity-[0.08]"
+      viewBox="0 0 100 150"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M10 20 Q 50 40, 90 30 Q 60 60, 80 90"
+        stroke="hsl(var(--secondary))"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        fill="none"
+      />
+      <path
+        d="M5 50 Q 40 70, 85 55 Q 55 85, 70 120"
+        stroke="hsl(var(--secondary))"
+        strokeWidth="1"
+        strokeLinecap="round"
+        fill="none"
+      />
+      <path
+        d="M15 80 Q 45 95, 75 85 Q 50 110, 60 140"
+        stroke="hsl(var(--accent))"
+        strokeWidth="0.8"
+        strokeLinecap="round"
+        fill="none"
+      />
+    </svg>
+  );
+}
 
 export function HeroSection() {
   const { t } = useLanguage();
 
   return (
-    <section className="relative min-h-[90vh] flex items-center bg-background overflow-hidden">
-      {/* Decorative Elements */}
+    <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-r from-primary/[0.03] via-secondary/[0.02] to-transparent">
+      {/* Decorative Elements - Reduced to 2 strategic blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Large teal circle - top right */}
+        {/* Primary blob - right side of image, mid-level */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="absolute -top-20 right-[15%] w-64 h-64 bg-secondary/15 rounded-full blur-xl"
+          transition={{ duration: 1, delay: 0.3 }}
+          className="absolute top-1/3 right-[10%] w-80 h-80 bg-secondary/[0.08] rounded-full blur-[80px]"
         />
-        {/* Coral circle - middle */}
+        {/* Secondary blob - base area, follows movement */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="absolute top-32 right-[40%] w-32 h-32 bg-orange-400/20 rounded-full blur-lg"
-        />
-        {/* Yellow circle - bottom */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="absolute bottom-40 right-[20%] w-24 h-24 bg-yellow-400/25 rounded-full blur-lg"
-        />
-        {/* Green accent circle */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="absolute bottom-20 left-[45%] w-20 h-20 bg-accent/20 rounded-full blur-lg"
-        />
-        {/* Small blue circle */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="absolute top-40 left-[35%] w-16 h-16 bg-primary/10 rounded-full blur-md"
+          transition={{ duration: 1, delay: 0.5 }}
+          className="absolute bottom-20 right-[25%] w-48 h-48 bg-accent/[0.06] rounded-full blur-[60px]"
         />
       </div>
 
@@ -109,56 +122,63 @@ export function HeroSection() {
             </motion.div>
           </div>
 
-          {/* Right Column - Image with Decorations */}
+          {/* Right Column - Image with Refined Integration */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            {/* WiFi Icon Decoration */}
+            {/* Organic Connection Lines - subtle, abstract */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
-              className="absolute -top-4 -left-4 z-10"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
             >
-              <div className="bg-secondary/20 p-4 rounded-2xl backdrop-blur-sm">
-                <Wifi className="w-8 h-8 text-secondary" />
-              </div>
+              <ConnectionLines />
             </motion.div>
 
+            {/* Layer 1 - Diffuse shadow behind image */}
+            <div className="absolute inset-0 translate-x-4 translate-y-4 bg-primary/[0.08] rounded-3xl blur-[60px] scale-105" />
+            
+            {/* Layer 2 - Color halo */}
+            <div className="absolute inset-0 -translate-x-2 -translate-y-2 bg-gradient-radial from-secondary/[0.06] to-transparent rounded-3xl blur-[40px] scale-110" />
+
             {/* Main Image Container */}
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+            <div className="relative rounded-3xl overflow-hidden">
               <img
                 src={heroImage}
                 alt="Jovens moçambicanos com smartphone"
-                className="w-full h-[400px] md:h-[500px] lg:h-[550px] object-cover"
+                className="w-full h-[400px] md:h-[500px] lg:h-[550px] object-cover brightness-[0.95] contrast-[1.02]"
               />
-              {/* Subtle gradient overlay for image integration */}
-              <div className="absolute inset-0 bg-gradient-to-t from-background/20 via-transparent to-transparent" />
+              {/* Layer 3 - Fade at base for seamless integration */}
+              <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
+              {/* Subtle top fade */}
+              <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-transparent to-transparent" />
             </div>
 
-            {/* Stats Card Decoration */}
+            {/* Stats Card with refined shadow */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.8 }}
-              className="absolute -bottom-6 -right-4 md:right-8 bg-card p-4 md:p-6 rounded-2xl shadow-xl border border-border/50"
+              className="absolute -bottom-4 right-4 md:right-12"
             >
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center">
-                  <span className="text-accent font-bold text-xl">+</span>
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-primary">1200+</p>
-                  <p className="text-sm text-muted-foreground">Jovens formados</p>
+              {/* Card halo */}
+              <div className="absolute inset-0 bg-secondary/[0.08] rounded-2xl blur-xl scale-110" />
+              {/* Card */}
+              <div className="relative bg-card/95 backdrop-blur-sm p-4 md:p-5 rounded-2xl shadow-lg">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center">
+                    <span className="text-accent font-bold text-lg">+</span>
+                  </div>
+                  <div>
+                    <p className="text-xl font-bold text-primary">1200+</p>
+                    <p className="text-xs text-muted-foreground">Jovens formados</p>
+                  </div>
                 </div>
               </div>
             </motion.div>
-
-            {/* Additional decorative circle on image */}
-            <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-secondary/30 rounded-full blur-xl" />
           </motion.div>
         </div>
 
