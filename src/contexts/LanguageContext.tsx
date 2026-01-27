@@ -17,6 +17,7 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.data': 'Dados',
     'nav.publications': 'Publicações',
     'nav.contact': 'Contacto',
+    'nav.become_member': 'Tornar-se Membro',
     
     // Hero
     'hero.title': 'Promovendo a Cidadania Digital em Moçambique',
@@ -82,6 +83,7 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.data': 'Data',
     'nav.publications': 'Publications',
     'nav.contact': 'Contact',
+    'nav.become_member': 'Become a Member',
     
     // Hero
     'hero.title': 'Promoting Digital Citizenship in Mozambique',

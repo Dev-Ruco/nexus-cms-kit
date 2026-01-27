@@ -77,6 +77,13 @@ export function Header() {
 
           {/* Right Actions */}
           <div className="flex items-center gap-2">
+            {/* CTA Button - Desktop */}
+            <Button
+              className="hidden lg:inline-flex btn-gradient text-sm px-5 py-2 h-auto rounded-full"
+            >
+              {t('nav.become_member')}
+            </Button>
+
             {/* Language Toggle */}
             <Button
               variant="ghost"
@@ -131,6 +138,17 @@ export function Header() {
                   </Link>
                 </motion.div>
               ))}
+              {/* CTA Button - Mobile */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: navItems.length * 0.05 }}
+                className="pt-4 mt-2 border-t border-border"
+              >
+                <Button className="w-full btn-gradient text-base py-3 h-auto rounded-full">
+                  {t('nav.become_member')}
+                </Button>
+              </motion.div>
             </nav>
           </motion.div>
         )}
