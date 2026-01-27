@@ -44,6 +44,13 @@ const translations: Record<Language, Record<string, string>> = {
     'map.select_province': 'Seleccione uma província para ver mais detalhes',
     'map.view_details': 'Ver Detalhes',
     
+    // About
+    'about.title': 'Sobre Nós',
+    'about.mission': 'Missão',
+    'about.vision': 'Visão',
+    'about.values': 'Os Nossos Valores',
+    'about.areas': 'Áreas de Actuação',
+    
     // Team
     'team.title': 'Nossa Equipa',
     'team.subtitle': 'Conheça os profissionais que tornam isto possível',
@@ -101,6 +108,13 @@ const translations: Record<Language, Record<string, string>> = {
     'map.subtitle': 'Explore data by province',
     'map.select_province': 'Select a province to see more details',
     'map.view_details': 'View Details',
+    
+    // About
+    'about.title': 'About Us',
+    'about.mission': 'Mission',
+    'about.vision': 'Vision',
+    'about.values': 'Our Values',
+    'about.areas': 'Areas of Action',
     
     // Team
     'team.title': 'Our Team',
