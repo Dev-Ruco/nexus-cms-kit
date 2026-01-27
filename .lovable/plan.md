@@ -1,263 +1,209 @@
 
-# Plano: Seccao "Sobre Nos" com Valores, Missao, Objectivos e Areas de Actuacao
 
-## Visao Geral
+# Auditoria UX/UI - Plano de Melhoria do Site CIBERCIDADAOS
 
-Criar uma nova seccao moderna e intuitiva para a homepage que apresenta a organizacao CIBERCIDADAOS de forma completa, incluindo:
-- Quem Somos (introducao)
-- Missao e Visao
-- Valores (com icones ilustrativos)
-- Objectivos estrategicos
-- Areas de Actuacao
+## Diagnostico Actual
 
-O design seguira o estilo visual ja estabelecido no site, com animacoes Framer Motion, paleta de cores institucional, e layout moderno UX.
+### Problemas Identificados
 
----
+| Problema | Seccao Afectada | Impacto UX |
+|----------|-----------------|------------|
+| Monotonia visual - fundos brancos/claros em todas as seccoes | Todo o site | Navegacao confusa, falta de ritmo visual |
+| Excesso de texto na seccao Sobre Nos | AboutSection | Fadiga de leitura, baixo engagement |
+| Ausencia de imagens ilustrativas | AboutSection | Conteudo pouco atrativo |
+| Seccao Mapa Interactivo desnecessaria | MapSection | Distraccao do fluxo principal |
+| Ordem das seccoes nao segue hierarquia organizacional | Toda a homepage | Dificuldade em encontrar informacao |
 
-## Posicionamento na Homepage
+### Fundos Actuais por Seccao
 
-A seccao sera inserida **logo apos o Hero** e **antes das Actividades**, pois:
-- E a primeira informacao institucional que os visitantes devem conhecer
-- Contextualiza o trabalho antes de mostrar actividades concretas
-
-### Nova Ordem das Seccoes
 ```text
-1. Hero Section
-2. AboutSection (NOVA)
-3. Activities Section
-4. Data Section
-5. Map Section
-6. Team Section
-7. Partners Section
+Hero         -> bg-primary (azul escuro) - BOM
+About        -> bg-muted/30 (cinza claro) - Monotono
+Activities   -> bg-background (branco) - Monotono
+Data         -> bg-muted/30 (cinza claro) - Monotono
+Map          -> bg-white - A REMOVER
+Team         -> bg-background (branco) - Monotono
+Partners     -> bg-muted/20 (cinza claro) - Monotono
 ```
 
 ---
 
-## Estrutura Visual da Seccao
+## Solucao Proposta
 
-### Layout Geral
-A seccao sera dividida em sub-seccoes visuais distintas para facilitar a leitura:
+### 1. Remover Seccao Mapa Interactivo
+
+Remover `<MapSection />` do `Index.tsx` para simplificar a navegacao.
+
+### 2. Nova Ordem das Seccoes (Hierarquia Organizacional)
+
+A ordem proposta segue o modelo tipico de organizacoes da sociedade civil:
 
 ```text
+1. Hero          - Primeira impressao e chamada de accao
+2. About         - Quem somos (institucional)
+3. Activities    - O que fazemos (trabalho)
+4. Data          - Impacto mensuravel (credibilidade)
+5. Team          - Quem somos (equipa)
+6. Partners      - Rede de apoio (credibilidade externa)
+```
+
+### 3. Alternancia de Fundos com Cores da Marca
+
+Para criar ritmo visual e fluidez de navegacao:
+
+| Seccao | Novo Fundo | Efeito Visual |
+|--------|------------|---------------|
+| Hero | `bg-primary` (azul #001A3D) | Impacto inicial - MANTER |
+| About | `bg-gradient-to-b from-primary/5 to-background` + imagem | Transicao suave do hero |
+| Activities | `bg-secondary/5` (teal leve) | Destaque para actividades |
+| Data | `bg-primary` (azul escuro) | Contraste forte, texto branco |
+| Team | `bg-background` (branco) | Clareza nas fotos |
+| Partners | `bg-gradient-to-br from-secondary/10 to-accent/10` | Encerramento colorido |
+
+### 4. Redesign da Seccao Sobre Nos
+
+#### Reducao de Texto
+- Condensar paragrafos longos em bullet points
+- Usar "ler mais" expansivel para texto adicional
+- Destacar frases-chave em negrito
+
+#### Adicionar Imagem Ilustrativa
+- Incluir imagem da equipa ou de actividades no lado direito
+- Criar layout em 2 colunas: texto esquerda, imagem direita
+- Adicionar elementos decorativos (circulos coloridos como no hero)
+
+#### Reorganizar Visualmente
+- Missao/Visao em cards com icones maiores e fundo colorido
+- Valores em formato icone-texto horizontal mais compacto
+- Areas de Actuacao com icones ilustrativos maiores
+
+---
+
+## Alteracoes por Ficheiro
+
+### `src/pages/Index.tsx`
+
+**Alteracoes:**
+- Remover import do `MapSection`
+- Remover `<MapSection />` do JSX
+- Manter nova ordem das seccoes
+
+### `src/components/sections/AboutSection.tsx`
+
+**Alteracoes:**
+- Alterar fundo para gradiente suave com toque de azul
+- Adicionar imagem ilustrativa no topo ou lado
+- Redesign do layout Missao/Visao com cores de fundo
+- Compactar texto - destacar palavras-chave
+- Adicionar elementos decorativos (circulos subtis)
+
+### `src/components/sections/ActivitiesSection.tsx`
+
+**Alteracoes:**
+- Alterar fundo de `bg-background` para `bg-secondary/5`
+- Adicionar borda decorativa superior em gradiente
+
+### `src/components/sections/DataSection.tsx`
+
+**Alteracoes:**
+- Alterar fundo para `bg-primary` (azul escuro)
+- Mudar cores de texto para branco
+- Ajustar cards para funcionar em fundo escuro
+
+### `src/components/sections/TeamSection.tsx`
+
+**Alteracoes:**
+- Manter `bg-background` (branco) para clareza das fotos
+- Adicionar separador visual superior em cor de marca
+
+### `src/components/sections/PartnersSection.tsx`
+
+**Alteracoes:**
+- Alterar fundo para gradiente colorido subtil
+- Manter clareza dos logos
+
+---
+
+## Estrutura Visual Proposta
+
+```text
++==================================================================+
+|                     HERO (Azul Escuro #001A3D)                    |
+|                  [Circulos coloridos + Imagem]                    |
++==================================================================+
+|                                                                   |
+|                   SOBRE NOS (Gradiente azul suave)                |
+|   +----------------------+    +-----------------------------+     |
+|   |  Texto condensado    |    |  [IMAGEM ILUSTRATIVA]       |     |
+|   |  Quem Somos          |    |   Equipa ou Actividade      |     |
+|   +----------------------+    +-----------------------------+     |
+|                                                                   |
+|   [MISSAO card azul]          [VISAO card teal]                  |
+|                                                                   |
+|   [Valor1] [Valor2] [Valor3] [Valor4] - horizontal compacto      |
+|                                                                   |
+|   [Area 1] [Area 2] [Area 3] [Area 4] [Area 5]                   |
 +------------------------------------------------------------------+
-|                    SOBRE NOS (Header)                             |
-|           Breve introducao sobre a organizacao                    |
-+------------------------------------------------------------------+
 |                                                                   |
-|  +------------------------+    +------------------------------+   |
-|  |       MISSAO          |    |           VISAO              |   |
-|  |  [Icone ilustrativo]  |    |    [Icone ilustrativo]       |   |
-|  |  Texto da missao      |    |    Texto da visao            |   |
-|  +------------------------+    +------------------------------+   |
+|              ACTIVIDADES (Fundo Teal/Verde Leve 5%)               |
+|                                                                   |
+|   [Card 1] [Card 2] [Card 3] [Card 4]                            |
 |                                                                   |
 +------------------------------------------------------------------+
-|                       VALORES (Grid 2x2 ou 4 colunas)             |
+|==================================================================|
+|                    DADOS (Azul Escuro #001A3D)                    |
 |                                                                   |
-|  [Icone]  [Icone]  [Icone]  [Icone]                              |
-|  Valor 1  Valor 2  Valor 3  Valor 4                              |
+|   [Stat 1]    [Stat 2]    [Stat 3]    [Stat 4]                   |
+|   (texto branco, cards glassmorphism)                            |
+|==================================================================|
 |                                                                   |
-+------------------------------------------------------------------+
-|                    AREAS DE ACTUACAO                              |
+|                    EQUIPA (Fundo Branco)                          |
 |                                                                   |
-|  [Card ilustrado 1]  [Card ilustrado 2]  [Card ilustrado 3]      |
-|  Literacia Digital   Seguranca Online   Inclusao Digital         |
-|                                                                   |
-|  [Card ilustrado 4]  [Card ilustrado 5]                          |
-|  Advocacia           Pesquisa e Dados                            |
+|   [Foto 1] [Foto 2] [Foto 3] [Foto 4]                            |
 |                                                                   |
 +------------------------------------------------------------------+
+|                                                                   |
+|              PARCEIROS (Gradiente Teal/Verde Suave)               |
+|                                                                   |
+|   [Logo 1] [Logo 2] [Logo 3] [Logo 4]                            |
+|                                                                   |
++==================================================================+
 ```
 
 ---
 
-## Conteudo (Bilingue PT/EN)
+## Beneficios da Solucao
 
-Quem somos
-
-PT
-A CIBERCIDADÃOS é uma organização moçambicana da sociedade civil que trabalha na promoção da cidadania digital, dos Direitos Humanos no ambiente digital e do uso ético e responsável das tecnologias. Actuamos a nível nacional, com foco na inclusão, na educação cívica digital e no fortalecimento da participação cidadã na sociedade da informação.
-
-EN
-CIBERCIDADÃOS is a Mozambican civil society organisation working to promote digital citizenship, human rights in the digital environment, and the ethical and responsible use of technology. We operate nationwide, focusing on inclusion, digital civic education, and strengthening citizen participation in the information society.
-
-Missão
-
-PT
-Promover os Direitos Humanos no ambiente digital, capacitando cidadãos com conhecimentos, competências e consciência crítica para uma participação segura, ética, informada e responsável na sociedade da informação.
-
-EN
-To promote human rights in the digital environment by empowering citizens with knowledge, skills, and critical awareness for safe, ethical, informed, and responsible participation in the information society.
-
-Visão
-
-PT
-Um Moçambique onde todos os cidadãos possam exercer plenamente a sua cidadania no ambiente digital, beneficiando das oportunidades tecnológicas de forma livre, segura, ética, inclusiva e socialmente justa.
-
-EN
-A Mozambique where all citizens can fully exercise their digital citizenship, benefiting from technological opportunities in a free, safe, ethical, inclusive, and socially just manner.
-
-Valores
-Inclusão
-
-PT: Defendemos uma transformação digital que não exclua ninguém, promovendo o acesso equitativo às tecnologias e à informação.
-EN: We support a digital transformation that leaves no one behind, promoting equitable access to technology and information.
-
-Integridade
-
-PT: Actuamos com transparência, ética e responsabilidade em todas as nossas iniciativas e parcerias.
-EN: We act with transparency, ethics, and accountability in all our initiatives and partnerships.
-
-Inovação
-
-PT: Incentivamos soluções criativas e sustentáveis para responder aos desafios emergentes do ambiente digital.
-EN: We encourage creative and sustainable solutions to address emerging challenges in the digital environment.
-
-Impacto
-
-PT: Trabalhamos com foco em resultados concretos e mensuráveis que fortaleçam a cidadania digital e os Direitos Humanos.
-EN: We focus on concrete and measurable results that strengthen digital citizenship and human rights.
-
-Áreas de actuação
-Educação para a cidadania digital
-
-PT: Desenvolvimento de programas de formação em competências digitais, promovendo o uso crítico, consciente e responsável das tecnologias.
-EN: Development of training programmes in digital skills, promoting critical, informed, and responsible use of technology.
-
-Liberdades e privacidade no ambiente digital
-
-PT: Promoção do acesso à informação, da liberdade de expressão e da protecção da privacidade no espaço digital.
-EN: Promotion of access to information, freedom of expression, and privacy protection in the digital space.
-
-Inclusão digital e justiça social
-
-PT: Iniciativas que reduzem desigualdades no acesso e no uso das tecnologias, com atenção especial a grupos vulneráveis.
-EN: Initiatives that reduce inequalities in access to and use of technology, with particular attention to vulnerable groups.
-
-Transparência e ética tecnológica
-
-PT: Promoção da transparência e da responsabilização no uso de dados, algoritmos, inteligência artificial e tecnologias emergentes.
-EN: Promotion of transparency and accountability in the use of data, algorithms, artificial intelligence, and emerging technologies.
-
-Investigação, dados e análise
-
-PT: Produção e divulgação de estudos e análises sobre cidadania digital, democracia digital e Direitos Humanos em Moçambique.
-EN: Production and dissemination of studies and analyses on digital citizenship, digital democracy, and human rights in Mozambique.
----
-
-## Componentes Visuais
-
-### Icones (Lucide React)
-Utilizaremos icones da biblioteca Lucide ja instalada:
-- **Missao**: Target
-- **Visao**: Eye
-- **Inclusao**: Users
-- **Integridade**: Shield
-- **Inovacao**: Lightbulb
-- **Impacto**: TrendingUp
-- **Literacia Digital**: GraduationCap
-- **Seguranca Online**: Lock
-- **Inclusao Digital**: Wifi
-- **Advocacia**: Scale
-- **Pesquisa**: BarChart3
-
-### Elementos Decorativos
-- Circulos coloridos subtis (teal, accent) como decoracao
-- Cards com hover effects e sombras
-- Linhas ou separadores gradiente entre sub-seccoes
-
-### Animacoes (Framer Motion)
-- Fade in e slide up ao entrar na viewport
-- Stagger effect nos cards de valores e areas
-- Hover scale nos cards interactivos
+1. **Ritmo Visual** - Alternancia claro/escuro cria sensacao de navegacao fluida
+2. **Hierarquia Clara** - Ordem segue expectativas de organizacoes similares
+3. **Reducao de Texto** - Maior engagement com conteudo visual
+4. **Cores da Marca** - Reforco da identidade CIBERCIDADAOS
+5. **Simplicidade** - Remocao do mapa reduz complexidade
 
 ---
 
-## Ficheiros a Criar/Modificar
+## Detalhes Tecnicos
 
-### 1. Novo Componente: `src/components/sections/AboutSection.tsx`
+### Cores a Utilizar
+- **Primary (Azul):** `bg-primary` / `hsl(213, 100%, 12%)`
+- **Secondary (Teal):** `bg-secondary` / `hsl(180, 100%, 32%)`
+- **Accent (Verde):** `bg-accent` / `hsl(168, 100%, 41%)`
 
-Estrutura do componente:
-```text
-AboutSection
-  - Container com padding section-padding
-  - Header (titulo + introducao)
-  - Grid Missao/Visao (2 colunas)
-  - Grid Valores (4 colunas responsivo)
-  - Grid Areas de Actuacao (3 colunas responsivo)
+### Classes CSS para Fundos Novos
+```css
+/* Data Section - Fundo escuro */
+bg-primary text-white
+
+/* Activities - Teal leve */
+bg-secondary/5
+
+/* About - Gradiente suave */
+bg-gradient-to-b from-primary/5 to-background
+
+/* Partners - Gradiente colorido */
+bg-gradient-to-br from-secondary/10 to-accent/10
 ```
 
-### 2. Actualizar Dados: `src/data/mockData.ts`
+### Imagem para About Section
+Sugere-se usar uma das imagens existentes ou adicionar nova imagem ilustrativa mostrando jovens em formacao digital.
 
-Adicionar interfaces e dados para:
-- `AboutContent` - Textos de missao, visao, introducao
-- `Value` - Valores com icone, titulo, descricao (PT/EN)
-- `ActionArea` - Areas de actuacao com icone, titulo, descricao (PT/EN)
-
-### 3. Actualizar Traducoes: `src/contexts/LanguageContext.tsx`
-
-Adicionar keys de traducao:
-- `about.title`, `about.intro`
-- `about.mission`, `about.vision`
-- `about.values`, `about.areas`
-
-### 4. Actualizar Index: `src/pages/Index.tsx`
-
-Importar e adicionar `<AboutSection />` apos o Hero.
-
----
-
-## Design UX Moderno
-
-### Cards de Valores
-- Fundo `bg-card` com bordas subtis
-- Icone grande colorido (teal/accent) no topo
-- Titulo em bold
-- Descricao curta
-- Hover: elevacao + borda colorida
-
-### Cards de Areas de Actuacao
-- Layout com ilustracao/icone no lado esquerdo
-- Texto descritivo no lado direito
-- Cores alternadas ou gradiente subtil
-- Hover: scale + sombra
-
-### Seccao Missao/Visao
-- Cards lado a lado em desktop
-- Empilhados em mobile
-- Icone ilustrativo grande
-- Fundo com gradiente subtil ou pattern
-
----
-
-## Responsividade
-
-| Viewport | Layout |
-|----------|--------|
-| Mobile (< 640px) | Stack vertical, 1 coluna |
-| Tablet (640-1024px) | Valores 2x2, Areas 2 colunas |
-| Desktop (> 1024px) | Valores 4 colunas, Areas 3 colunas |
-
----
-
-## Cores e Estilos (Seguindo Design System)
-
-- **Fundo seccao**: `bg-background` ou `bg-muted/30` alternado
-- **Titulos**: `text-foreground font-serif`
-- **Icones valores**: `text-secondary` (teal)
-- **Icones areas**: `text-accent` (verde) ou gradiente
-- **Cards**: `bg-card border border-border/50`
-- **Hover states**: `hover:shadow-md hover:-translate-y-1`
-
----
-
-## Resultado Visual Esperado
-
-Uma seccao institucional completa que:
-- Apresenta claramente quem e a CIBERCIDADAOS
-- Mostra missao e visao de forma visual e impactante
-- Lista valores com icones memoraveis
-- Detalha areas de actuacao com cards ilustrativos
-- Segue o design system existente
-- E totalmente bilingue (PT/EN)
-- Tem animacoes suaves e modernas
-- E responsivo em todos os dispositivos
