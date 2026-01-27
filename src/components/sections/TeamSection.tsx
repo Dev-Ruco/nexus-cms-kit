@@ -1,12 +1,17 @@
 import { motion } from 'framer-motion';
-import { Linkedin, Twitter, Mail } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Linkedin, Twitter, Mail, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { teamMembers } from '@/data/mockData';
+import { Button } from '@/components/ui/button';
 
 export function TeamSection() {
   const { language, t } = useLanguage();
 
-  const sortedMembers = [...teamMembers].sort((a, b) => a.order - b.order);
+  // Only show first 3 members on homepage
+  const displayedMembers = [...teamMembers]
+    .sort((a, b) => a.order - b.order)
+    .slice(0, 3);
 
   return (
     <section className="section-padding bg-background relative overflow-hidden">
@@ -30,15 +35,15 @@ export function TeamSection() {
           </p>
         </motion.div>
 
-        {/* Team Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {sortedMembers.map((member, index) => (
+        {/* Team Grid - Only 3 members */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+          {displayedMembers.map((member, index) => (
             <motion.div
               key={member.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.05 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
               className="group"
             >
               <div className="bg-card rounded-xl overflow-hidden h-full border border-border/50 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1">
@@ -103,6 +108,26 @@ export function TeamSection() {
             </motion.div>
           ))}
         </div>
+
+        {/* CTA Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="text-center"
+        >
+          <Button 
+            asChild
+            variant="outline"
+            className="rounded-full px-6 py-2 h-auto group border-secondary text-secondary hover:bg-secondary hover:text-white"
+          >
+            <Link to="/sobre/governanca">
+              {t('team.meet_all')}
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </Button>
+        </motion.div>
       </div>
     </section>
   );

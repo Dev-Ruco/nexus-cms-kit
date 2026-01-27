@@ -6,10 +6,11 @@ import { Input } from '@/components/ui/input';
 import logo from '@/assets/Logotipo_oficial.png';
 
 const quickLinks = [
-  { key: 'nav.about', href: '/sobre' },
+  { key: 'nav.about.organization', href: '/sobre/cibercidadaos' },
   { key: 'nav.activities', href: '/actividades' },
   { key: 'nav.data', href: '/dados' },
   { key: 'nav.publications', href: '/publicacoes' },
+  { key: 'nav.contact', href: '/contacto' },
 ];
 
 const socialLinks = [
