@@ -20,6 +20,9 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.publications': 'Publicações',
     'nav.contact': 'Contacto',
     'nav.become_member': 'Tornar-se Membro',
+    'nav.enter': 'Entrar',
+    'nav.my_area': 'Minha Área',
+    'nav.member_portal': 'Portal do Membro',
     
     // Hero
     'hero.title': 'Promovendo a Cidadania Digital em Moçambique',
@@ -199,6 +202,9 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.publications': 'Publications',
     'nav.contact': 'Contact',
     'nav.become_member': 'Become a Member',
+    'nav.enter': 'Sign In',
+    'nav.my_area': 'My Area',
+    'nav.member_portal': 'Member Portal',
     
     // Hero
     'hero.title': 'Promoting Digital Citizenship in Mozambique',

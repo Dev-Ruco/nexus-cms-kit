@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Eye, EyeOff, LogIn } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
@@ -40,12 +41,35 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/';
+  const from = (location.state as { from?: { pathname: string } })?.from?.pathname;
 
+  // Role-based redirect after login
   useEffect(() => {
-    if (user) {
-      navigate(from, { replace: true });
-    }
+    const checkRolesAndRedirect = async () => {
+      if (!user) return;
+      
+      // If there's a specific "from" path, go there
+      if (from) {
+        navigate(from, { replace: true });
+        return;
+      }
+
+      // Otherwise, fetch roles and redirect accordingly
+      const { data: roles } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', user.id);
+
+      const userRoles = roles?.map(r => r.role) || [];
+      
+      if (userRoles.includes('admin') || userRoles.includes('editor') || userRoles.includes('moderator')) {
+        navigate('/admin', { replace: true });
+      } else {
+        navigate('/member/portal', { replace: true });
+      }
+    };
+
+    checkRolesAndRedirect();
   }, [user, navigate, from]);
 
   const loginForm = useForm<LoginFormData>({

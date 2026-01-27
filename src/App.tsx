@@ -21,7 +21,7 @@ import Press from "./pages/Press";
 import Login from "./pages/auth/Login";
 import AdminLayout from "./pages/admin/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
-
+import MemberPortal from "./pages/member/Portal";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -61,6 +61,16 @@ const App = () => (
               
               {/* Membro */}
               <Route path="/membro" element={<BecomeMember />} />
+              
+              {/* Member Portal */}
+              <Route 
+                path="/member/portal" 
+                element={
+                  <ProtectedRoute>
+                    <MemberPortal />
+                  </ProtectedRoute>
+                }
+              />
               
               {/* Admin Routes */}
               <Route 
