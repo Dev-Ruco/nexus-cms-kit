@@ -1,180 +1,187 @@
 
-# Plano: Ajustes no Hero Section e Header
+# Plano: Actualizacao do Logotipo, Cores e Seccao Sobre Nos
 
-## Problemas Identificados
+## Resumo das Alteracoes Solicitadas
 
-Com base no screenshot de referencia e na analise do codigo actual:
-
-| Problema | Ficheiro | Solucao |
-|----------|----------|---------|
-| Hero preenche toda a tela (90vh) | HeroSection.tsx | Reduzir para ~75-80vh para mostrar titulo da proxima seccao |
-| Imagem pequena e cortada em baixo | HeroSection.tsx | Ajustar tamanho e posicionamento da imagem |
-| Falta botao "Tornar-se Membro" no header | Header.tsx | Adicionar CTA button destacado |
-| Indicador de scroll mal posicionado | HeroSection.tsx | Mover para area visivel |
-
----
-
-## 1. Reduzir Altura do Hero Section
-
-### Problema Actual
-```tsx
-<section className="relative min-h-[90vh] flex items-center overflow-hidden bg-primary">
-```
-O hero ocupa 90% da viewport, nao deixando espaco para ver a proxima seccao.
-
-### Solucao
-- Reduzir de `min-h-[90vh]` para `min-h-[75vh]` ou `min-h-[80vh]`
-- Isto permite que ~20-25% da tela mostre o inicio da proxima seccao
-- O utilizador ve imediatamente que ha mais conteudo abaixo
-- Cria direccao visual para scroll
-
-### Codigo Proposto
-```tsx
-<section className="relative min-h-[75vh] lg:min-h-[80vh] flex items-center overflow-hidden bg-primary">
-```
+| Alteracao | Ficheiro(s) | Descricao |
+|-----------|-------------|-----------|
+| Novo logotipo no Header | Header.tsx | Substituir logo actual pelo novo (sem fundo), aumentar tamanho |
+| Logotipo branco no Footer | Footer.tsx | Adicionar versao branca do logo para harmonia com fundo escuro |
+| Remover seccao "Valores" | AboutSection.tsx | Eliminar completamente a seccao "Os Nossos Valores" |
+| Adicionar card "Objectivos" | AboutSection.tsx | Criar 3 cards horizontais: Missao, Visao, Objectivos |
+| Trocar hierarquia de cores | index.css | Teal passa a secundaria, Verde passa a terciaria (accent) |
 
 ---
 
-## 2. Corrigir Tamanho e Posicao da Imagem
+## 1. Substituicao do Logotipo
 
-### Problema Actual
-A imagem tem restricoes que a tornam pequena:
-```tsx
-className="w-full h-auto min-h-[500px] lg:min-h-[600px] max-h-[700px] object-contain object-bottom"
-```
+### Header
+- Copiar novo logotipo `Logotipo_oficial.png` para `src/assets/`
+- Substituir import do `logo.png` pelo novo ficheiro
+- Aumentar tamanho de `h-10 md:h-12` para `h-14 md:h-16` para maior visibilidade
+- O novo logo ja nao tem fundo (transparente)
 
-### Solucao
-- Remover `max-h-[700px]` que limita a altura
-- Ajustar `min-h` para valores mais proporcionais ao novo hero
-- Usar `object-cover` parcial ou ajustar posicionamento
-- Permitir que a imagem preencha naturalmente a area
-
-### Codigo Proposto
-```tsx
-className="w-full h-auto min-h-[400px] lg:min-h-[500px] object-contain object-center drop-shadow-2xl"
-```
+### Footer
+- Necessitamos de uma versao branca do logo para contrastar com o fundo azul escuro
+- Aplicar filtro CSS `brightness(0) invert(1)` para converter para branco
+- Ou criar versao branca do logo
 
 ---
 
-## 3. Adicionar Botao "Tornar-se Membro" no Header
+## 2. Reorganizacao da Seccao "Sobre Nos"
 
-### Localizacao
-Na area de accoes do header (lado direito), antes do toggle de idioma.
+### Remover
+- Eliminar completamente a seccao "Valores" (linhas 176-210 do AboutSection.tsx)
+- Remover array `values` e respectivos icones nao utilizados
 
-### Design
-- Botao destacado com cor accent (teal gradient)
-- Visivel apenas em desktop (hidden em mobile - pode ir no menu mobile)
-- Estilo `btn-gradient` ja existente no CSS
+### Adicionar Card "Objectivos"
+O conteudo sera (conforme plano original aprovado):
 
-### Codigo Proposto
-```tsx
-{/* CTA Button - Desktop */}
-<Button
-  className="hidden lg:inline-flex btn-gradient text-sm px-5 py-2 h-auto rounded-full"
->
-  {t('nav.become_member')}
-</Button>
+**Portugues:**
+Promover a literacia digital, fortalecer a participacao civica online, e defender os direitos digitais de todos os mocambicanos.
+
+**Ingles:**
+To promote digital literacy, strengthen online civic participation, and defend the digital rights of all Mozambicans.
+
+### Layout Final
+```text
++------------------+------------------+------------------+
+|     MISSAO       |      VISAO       |    OBJECTIVOS    |
+|   [Target icon]  |    [Eye icon]    |  [Compass icon]  |
+|   Fundo Azul     |   Fundo Teal     |   Fundo Verde    |
++------------------+------------------+------------------+
 ```
 
-### Traducoes a Adicionar
-```typescript
-'nav.become_member': 'Tornar-se Membro' // PT
-'nav.become_member': 'Become a Member'   // EN
-```
+Grid: `grid md:grid-cols-3 gap-6`
 
 ---
 
-## 4. Ajustar Indicador de Scroll
+## 3. Reordenacao das Cores
 
-### Problema Actual
-O scroll indicator esta posicionado em `bottom-8` mas com o hero mais curto, pode ficar cortado ou mal posicionado.
+### Situacao Actual
+```css
+--secondary: 180 100% 32%;  /* Teal #00A3A4 */
+--accent: 168 100% 41%;     /* Verde #00D1B2 */
+```
 
-### Solucao
-- Manter o scroll indicator visivel
-- Ajustar posicionamento para `bottom-4` ou `bottom-6`
-- Garantir que fica dentro da area do hero
+### Nova Organizacao
+Manter os nomes das variaveis mas ajustar uso semantico:
+- **Secondary (Teal)**: Cor principal de destaque - continua como esta
+- **Accent (Verde)**: Passa a ser usada apenas como terceira opcao
 
----
+O pedido do utilizador e para dar mais proeminencia ao azul teal sobre o verde. Actualmente:
+- Secondary (Teal) ja e usado como cor principal de destaque
+- Accent (Verde) e usado em elementos terciarios
 
-## 5. Adicionar Botao no Menu Mobile
-
-Para consistencia, adicionar o CTA "Tornar-se Membro" tambem no menu mobile, como ultimo item com estilo destacado.
+Na pratica, a estrutura actual ja segue esta logica. O que podemos fazer e:
+1. Ajustar o card de "Visao" para usar secundario (teal)
+2. Novo card "Objectivos" pode usar accent (verde) como terceira cor
 
 ---
 
 ## Ficheiros a Modificar
 
-### `src/components/sections/HeroSection.tsx`
-1. Reduzir `min-h-[90vh]` para `min-h-[75vh] lg:min-h-[80vh]`
-2. Ajustar tamanho da imagem removendo `max-h` restritivo
-3. Ajustar posicao do scroll indicator
-4. Ajustar padding inferior do container
+### 1. `src/assets/Logotipo_oficial.png` (NOVO)
+- Copiar ficheiro do user-uploads para src/assets
 
-### `src/components/layout/Header.tsx`
-1. Adicionar botao "Tornar-se Membro" no header desktop
-2. Adicionar item correspondente no menu mobile
-3. Usar classe `btn-gradient` para destaque
+### 2. `src/components/layout/Header.tsx`
 
-### `src/contexts/LanguageContext.tsx`
-1. Adicionar traducoes para `nav.become_member`
+**Alteracoes:**
+```tsx
+// Linha 8: Alterar import
+import logo from '@/assets/Logotipo_oficial.png';
+
+// Linha 55-59: Aumentar tamanho do logo
+<img
+  src={logo}
+  alt="CIBERCIDADAOS"
+  className="h-14 md:h-16 w-auto"  // Era h-10 md:h-12
+/>
+```
+
+### 3. `src/components/layout/Footer.tsx`
+
+**Alteracoes:**
+```tsx
+// Linha 6: Alterar import
+import logo from '@/assets/Logotipo_oficial.png';
+
+// Linha 34-36: Aplicar filtro para versao branca
+<img 
+  src={logo} 
+  alt="CIBERCIDADAOS" 
+  className="h-14 w-auto brightness-0 invert"  // Filtro para branco
+/>
+```
+
+### 4. `src/components/sections/AboutSection.tsx`
+
+**Alteracoes principais:**
+1. Remover import dos icones de valores nao usados (Users, Shield, Lightbulb, TrendingUp)
+2. Adicionar import do icone Compass para Objectivos
+3. Remover array `values`
+4. Remover toda a seccao de renderizacao dos valores (linhas 176-210)
+5. Alterar grid de Missao/Visao de 2 para 3 colunas
+6. Adicionar novo card "Objectivos"
+
+**Estrutura do novo grid:**
+```tsx
+<motion.div className="grid md:grid-cols-3 gap-6 mb-12">
+  {/* Missao - bg-primary */}
+  {/* Visao - bg-secondary */}
+  {/* Objectivos - bg-accent (novo) */}
+</motion.div>
+```
+
+### 5. `src/contexts/LanguageContext.tsx`
+
+**Adicionar traducao:**
+```tsx
+// PT
+'about.objectives': 'Objectivos',
+
+// EN
+'about.objectives': 'Objectives',
+```
 
 ---
 
-## Estrutura Visual Esperada
+## Estrutura Visual Final da Seccao Sobre Nos
 
 ```text
 +------------------------------------------------------------------+
-| [Logo]     [Nav Items...]               [Tornar-se Membro] [PT]  |
-+==================================================================+
+|                    SOBRE NOS (Gradiente azul suave)               |
+|   +----------------------+    +-----------------------------+     |
+|   |  Texto condensado    |    |  [IMAGEM ILUSTRATIVA]       |     |
+|   |  Quem Somos          |    |                             |     |
+|   +----------------------+    +-----------------------------+     |
 |                                                                   |
-|                     HERO SECTION (75-80vh)                       |
+|   +----------------+  +----------------+  +----------------+      |
+|   |    MISSAO      |  |     VISAO      |  |  OBJECTIVOS   |      |
+|   |  [Target]      |  |    [Eye]       |  |  [Compass]    |      |
+|   |  Fundo Azul    |  |  Fundo Teal    |  | Fundo Verde   |      |
+|   +----------------+  +----------------+  +----------------+      |
 |                                                                   |
-|   [Texto]                    [Imagem preenchendo area]           |
-|   [CTAs]                                                         |
-|                                                                   |
-|                           [Scroll]                               |
-+------------------------------------------------------------------+
-|                                                                   |
-|     SOBRE NOS (titulo visivel acima da dobra)                    |
-|                                                                   |
+|   [Area 1] [Area 2] [Area 3] [Area 4] [Area 5]                   |
 +------------------------------------------------------------------+
 ```
 
 ---
 
-## Beneficios
+## Beneficios das Alteracoes
 
-1. **Direccao Visual** - Utilizador ve que ha mais conteudo abaixo
-2. **Imagem Natural** - Preenche a area sem cortes ou espacos vazios
-3. **CTA Destacado** - "Tornar-se Membro" visivel em todas as paginas
-4. **Hierarquia Clara** - Fluxo natural de navegacao
-5. **Mobile Friendly** - Botao tambem disponivel no menu mobile
+1. **Identidade Visual Forte** - Logo maior e mais visivel no header
+2. **Harmonia no Footer** - Logo branco integra-se com fundo escuro
+3. **Menos Texto** - Remocao dos valores simplifica a leitura
+4. **Estrutura Tripla** - Missao, Visao, Objectivos em 3 cards equilibrados
+5. **Hierarquia de Cores** - Azul > Teal > Verde claramente definida
 
 ---
 
-## Detalhes Tecnicos
+## Conteudo do Card Objectivos (Bilingue)
 
-### Classes CSS Actualizadas
+### Portugues
+Promover a literacia digital, fortalecer a participacao civica online, e defender os direitos digitais de todos os mocambicanos.
 
-**Hero Section:**
-```css
-/* Antes */
-min-h-[90vh]
-
-/* Depois */
-min-h-[75vh] lg:min-h-[80vh]
-```
-
-**Imagem Hero:**
-```css
-/* Antes */
-min-h-[500px] lg:min-h-[600px] max-h-[700px] object-bottom
-
-/* Depois */
-min-h-[400px] lg:min-h-[500px] object-center
-```
-
-**Header CTA Button:**
-```css
-btn-gradient text-sm px-5 py-2 h-auto rounded-full
-```
+### Ingles
+To promote digital literacy, strengthen online civic participation, and defend the digital rights of all Mozambicans.
