@@ -9,41 +9,41 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-primary">
-      {/* Colorful Decorative Blobs - Vibrant like reference */}
+      {/* Decorative Circles - Vibrant, defined, visible through characters */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Coral blob - behind the group, center-left */}
+        {/* Coral Grande - behind group, center-left */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.2 }}
-          className="absolute top-20 right-[35%] w-72 h-72 bg-orange-500/65 rounded-full blur-xl"
+          className="absolute top-16 right-[40%] w-80 h-80 bg-orange-500/75 rounded-full blur-lg z-0"
         />
-        {/* Blue blob - top right */}
+        {/* Blue Medium - top right */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.3 }}
-          className="absolute top-8 right-[18%] w-48 h-48 bg-blue-600/60 rounded-full blur-xl"
+          className="absolute top-4 right-[20%] w-56 h-56 bg-blue-600/70 rounded-full blur-md z-0"
         />
-        {/* Yellow blob - large, right side */}
+        {/* Yellow Large - right side, lower */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="absolute bottom-20 right-[5%] w-64 h-64 bg-yellow-400/65 rounded-full blur-xl"
+          className="absolute bottom-10 right-[0%] w-72 h-72 bg-yellow-400/75 rounded-full blur-lg z-0"
         />
-        {/* Green/Accent blob - small, bottom right */}
+        {/* Green/Teal Small - bottom right accent */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="absolute bottom-32 right-[15%] w-32 h-32 bg-emerald-500/55 rounded-full blur-lg"
+          className="absolute bottom-24 right-[12%] w-40 h-40 bg-emerald-500/65 rounded-full blur-md z-0"
         />
       </div>
 
       {/* Content Grid */}
       <div className="relative container-custom pt-32 pb-20 md:pt-40 md:pb-24">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+        <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-8 items-center">
           {/* Left Column - Text Content */}
           <div className="max-w-xl">
             {/* White decorative dot - top left */}
@@ -115,24 +115,24 @@ export function HeroSection() {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative"
+            className="relative z-10"
           >
             {/* WiFi Icon - Prominent teal, positioned top-right */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.7 }}
-              className="absolute -top-4 right-8 z-10"
+              className="absolute -top-4 right-8 z-20"
             >
               <Wifi className="w-16 h-16 text-secondary/90" strokeWidth={1.5} />
             </motion.div>
 
-            {/* Main Image Container - Transparent PNG, seamless integration */}
+            {/* Main Image Container - Larger, fills section properly */}
             <div className="relative">
               <img
                 src={heroImage}
                 alt="Jovens moçambicanos com smartphone"
-                className="w-full h-[400px] md:h-[500px] lg:h-[550px] object-contain drop-shadow-2xl"
+                className="w-full h-auto min-h-[500px] lg:min-h-[600px] max-h-[700px] object-contain object-bottom drop-shadow-2xl"
               />
             </div>
 
