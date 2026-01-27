@@ -1,196 +1,135 @@
 
-# Plano: Actualização para Tema Claro Institucional
 
-## Sumário Executivo
-Transformar o site actual com tema predominantemente escuro para um design claro, leve e institucional, mantendo a identidade visual da CIBERCIDADÃOS e melhorando significativamente a legibilidade e credibilidade.
+# Plano: Hero Section Clara e Institucional
+
+## Objectivo
+Transformar a Hero Section actual (fundo escuro com overlay pesado) num layout claro e moderno, inspirado na referencia fornecida, mantendo a fotografia e o conteudo existentes.
 
 ---
 
-## 1. Actualização do Design System (CSS/Tailwind)
+## Analise da Referencia
 
-### 1.1 Paleta de Cores Revista
+A imagem de referencia mostra um hero com:
+- Layout em duas colunas (texto esquerda, imagem direita)
+- Formas geometricas decorativas (circulos coloridos: coral, azul, amarelo, verde, teal)
+- Icones graficos (WiFi) como elementos de accent
+- Botoes com cantos arredondados
+- Card de destaque no canto inferior direito
+
+---
+
+## Mudancas Propostas
+
+### 1. Estrutura de Layout
 | Elemento | Actual | Novo |
 |----------|--------|------|
-| Background | Cinza claro #F7F8FA | Branco #FFFFFF |
-| Foreground | Azul escuro | Azul institucional #001A3D |
-| Cards | Branco | Branco com borda sutil |
-| Hover/Active | Verde | Teal #00A3A4 |
+| Layout | Imagem fullscreen + overlay | Duas colunas: texto (esq) + imagem (dir) |
+| Fundo | Gradiente azul escuro sobre foto | Branco/off-white limpo |
+| Altura | min-h-screen | min-h-[90vh] ou altura dinamica |
 
-### 1.2 Ficheiros a Modificar
-- **src/index.css**: Ajustar variáveis CSS para tema claro predominante
-- Remover gradientes escuros dominantes
-- Adicionar sombras subtis institucionais
-- Manter gradientes apenas para Hero e separadores
+### 2. Tratamento da Imagem
+- Remover overlay escuro pesado
+- Posicionar imagem no lado direito (50-60% da largura)
+- Aplicar apenas sombra subtil ou gradiente minimo para integracao
+- Manter a mesma fotografia (`hero-photo.jpg`)
+
+### 3. Tipografia e Cores
+| Elemento | Actual | Novo |
+|----------|--------|------|
+| Titulo | text-white | text-primary (azul #001A3D) |
+| Subtitulo | text-white/80 | text-muted-foreground (cinza escuro) |
+| Badge | glass (fundo escuro) | bg-secondary/10 text-secondary border |
+
+### 4. Elementos Graficos Decorativos
+Inspirados na referencia, adicionar formas geometricas em opacidade baixa:
+- Circulo teal (grande, canto superior direito da imagem)
+- Circulo coral/laranja (medio, interseccao texto/imagem)
+- Circulo amarelo (pequeno, proximo da imagem)
+- Circulo azul (pequeno, decorativo)
+- Icone WiFi estilizado (elemento de conexao digital)
+
+Todas as formas usam cores da paleta CIBERCIDADAOS:
+- Teal: #00A3A4 (secondary)
+- Verde: #00D1B2 (accent)
+- Azul: #001A3D (primary)
+- Coral/Laranja: tom complementar quente
+
+### 5. Botoes (CTAs)
+- Manter btn-gradient para CTA principal
+- Segundo botao: borda institucional (border-primary text-primary)
+- Cantos mais arredondados (rounded-full ou rounded-xl)
+
+### 6. Scroll Indicator
+- Alterar cores para tema claro: text-primary/60 e border-primary/30
 
 ---
 
-## 2. Header com Fundo Branco
+## Codigo a Modificar
 
-### Mudancas no Header
-- Fundo branco solido (sem transparencia escura)
-- Logotipo original totalmente visivel
-- Texto do menu em azul institucional (#001A3D)
-- Estado hover/activo em teal (#00A3A4)
-- Sombra sutil ao fazer scroll
-- Menu mobile com fundo branco
+### Ficheiro: `src/components/sections/HeroSection.tsx`
 
-### Codigo a Alterar
+Alteracoes principais:
+1. Remover o overlay escuro (`bg-gradient-to-b from-primary/80...`)
+2. Mudar layout para grid de duas colunas
+3. Adicionar formas decorativas com motion animations
+4. Actualizar cores do texto para azul/cinza
+5. Reposicionar imagem para lado direito
+6. Actualizar badge para tema claro
+7. Actualizar botao outline para tema claro
+
+### Estrutura do Novo Layout
 ```text
-src/components/layout/Header.tsx
-- Remover: bg-primary/95 e bg-transparent
-- Adicionar: bg-white shadow-sm (scroll) e bg-white/95 (topo)
-- Cores do texto: text-primary hover:text-secondary
++--------------------------------------------------+
+|  [Fundo branco/off-white]                        |
+|                                                  |
+|  +-------------------+   +--------------------+  |
+|  | Badge             |   |                    |  |
+|  | Titulo (azul)     |   |    FOTOGRAFIA      |  |
+|  | Subtitulo (cinza) |   |    + formas        |  |
+|  | [CTA1] [CTA2]     |   |    decorativas     |  |
+|  +-------------------+   +--------------------+  |
+|                                                  |
+|           [Scroll indicator]                     |
++--------------------------------------------------+
 ```
 
 ---
 
-## 3. Hero Section (Unica seccao com overlay escuro)
+## Formas Decorativas (Detalhes)
 
-A Hero Section mantem o gradiente escuro sobre a imagem para garantir legibilidade do texto branco. Esta e a unica excepcao ao tema claro.
-
-### Ajustes Menores
-- Gradiente mais suave para melhor transicao
-- Manter CTAs com gradiente teal
-
----
-
-## 4. Seccoes com Fundo Claro
-
-### 4.1 ActivitiesSection
-- Fundo: bg-white
-- Cards: Borda sutil + sombra leve
-- Titulos: Azul institucional
-- Links hover: Teal
-
-### 4.2 DataSection (Mudanca Significativa)
-- **Actual**: Fundo gradiente azul escuro com texto branco
-- **Novo**: Fundo off-white com cards brancos
-- Icones: Fundo teal em circulo
-- Numeros: Azul institucional
-- Decoracao: Linha/separador teal subtil no topo
-
-### 4.3 MapSection
-- Fundo: Branco/off-white
-- Cards laterais: Brancos com sombra
-- Mapa: Tons de teal com hover mais intenso
-
-### 4.4 TeamSection
-- Fundo: Branco
-- Cards: Borda sutil ou sombra leve
-- Overlay hover: Gradiente teal (mais claro)
-
-### 4.5 PartnersSection
-- Fundo: Off-white (bg-muted/20)
-- Cards: Brancos com hover teal
+Posicionamento (usando Tailwind + motion):
+- Circulo teal grande: `absolute top-20 right-[30%] w-32 h-32 bg-secondary/20 rounded-full`
+- Circulo coral: `absolute top-40 right-[45%] w-24 h-24 bg-orange-400/20 rounded-full`
+- Circulo amarelo: `absolute bottom-32 right-[25%] w-20 h-20 bg-yellow-400/20 rounded-full`
+- Circulo verde: `absolute bottom-20 right-[40%] w-16 h-16 bg-accent/15 rounded-full`
+- Icone WiFi: SVG inline em `text-secondary/30` posicionado sobre a imagem
 
 ---
 
-## 5. Mapa SVG de Mocambique
+## Nao Sera Alterado
 
-### Problema Actual
-O mapa actual usa paths simplificados (formas geometricas basicas) que nao representam correctamente a geografia de Mocambique.
-
-### Solucao
-O utilizador forneceu um SVG geograficamente correcto, mas este contem um unico path complexo (nao dividido por provincias).
-
-### Abordagem Tecnica
-1. Criar um componente React com SVG inline dividido por 11 provincias
-2. Cada provincia tera um path separado com id unico
-3. Estilos: Preenchimento claro, hover teal, active mais intenso
-4. Manter interactividade com painel lateral
-
-### Provincias de Mocambique (11 total)
-```text
-- Niassa (norte)
-- Cabo Delgado (nordeste)
-- Nampula (norte-centro)
-- Zambezia (centro)
-- Tete (noroeste)
-- Manica (centro-oeste)
-- Sofala (centro-litoral)
-- Inhambane (sul-litoral)
-- Gaza (sul)
-- Maputo Provincia (extremo sul)
-- Maputo Cidade (capital)
-```
-
-### Estilo do Mapa
-```text
-Estado normal: fill-secondary/15 stroke-secondary
-Estado hover: fill-secondary/30 stroke-secondary stroke-width-2
-Estado active: fill-secondary/50 + drop-shadow teal
-```
+- Logica de traducao (useLanguage)
+- Conteudo dos textos (t('hero.title'), etc.)
+- Outras seccoes do site (ActivitiesSection, DataSection, etc.)
+- Header e Footer
 
 ---
 
-## 6. Footer (Mantem Tema Escuro)
+## Acessibilidade
 
-O Footer pode manter o fundo azul escuro institucional, criando um contraste elegante e definindo claramente o fim da pagina.
-
-### Ajustes
-- Manter bg-primary (azul escuro)
-- Melhorar contraste do texto
-- Links hover em teal
+- Titulo em azul #001A3D sobre branco: contraste 15.6:1 (excelente)
+- Subtitulo em cinza escuro: contraste minimo 4.5:1
+- Imagem com alt text descritivo mantido
 
 ---
 
-## 7. Componentes UI Afectados
+## Resultado Esperado
 
-### Cards (card-elevated)
-```text
-Actual: bg-card shadow-md
-Novo: bg-white border border-border/50 shadow-sm
-Hover: shadow-md + translate-y
-```
+Um hero leve e institucional que:
+- Usa fundo claro (branco/off-white)
+- Mostra a fotografia com destaque no lado direito
+- Apresenta texto em cores escuras com alta legibilidade
+- Integra formas decorativas subtis da paleta CIBERCIDADAOS
+- Mantem CTAs e copy existentes
+- Cria transicao suave para as seccoes seguintes
 
-### Botoes
-```text
-btn-gradient: Manter gradiente teal (CTA principal)
-Outline: border-primary text-primary hover:bg-primary/5
-```
-
-### Links
-```text
-Normal: text-primary
-Hover: text-secondary
-Underline: gradient teal
-```
-
----
-
-## 8. Acessibilidade e Legibilidade
-
-### Garantias
-- Contraste minimo WCAG AA (4.5:1 para texto normal)
-- Azul #001A3D sobre branco: 15.6:1 (Excelente)
-- Teal #00A3A4 sobre branco: 3.2:1 (usar apenas para decoracao, nao texto pequeno)
-- Texto secundario em cinza escuro, nao teal
-
----
-
-## Resumo de Ficheiros a Modificar
-
-| Ficheiro | Alteracoes |
-|----------|------------|
-| src/index.css | Variaveis CSS, classes utilitarias |
-| src/components/layout/Header.tsx | Fundo branco, cores do texto |
-| src/components/sections/HeroSection.tsx | Ajustes menores no overlay |
-| src/components/sections/DataSection.tsx | Redesign completo para fundo claro |
-| src/components/sections/MapSection.tsx | Novo SVG, estilos claros |
-| src/components/sections/ActivitiesSection.tsx | Cores e sombras dos cards |
-| src/components/sections/TeamSection.tsx | Overlay hover mais claro |
-| src/components/sections/PartnersSection.tsx | Cores consistentes |
-| src/components/layout/Footer.tsx | Pequenos ajustes de contraste |
-
----
-
-## Resultado Visual Esperado
-
-- Header branco com logo colorido totalmente visivel
-- Navegacao em azul institucional, hover teal
-- Hero Section impactante (unica area escura)
-- Seccoes limpas sobre fundo branco/off-white
-- Cards com sombras subtis e bordas elegantes
-- Mapa geograficamente correcto e interactivo
-- Tipografia de alta legibilidade
-- Identidade visual coerente e credivel
