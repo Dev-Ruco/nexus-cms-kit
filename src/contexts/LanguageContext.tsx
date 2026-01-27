@@ -169,6 +169,18 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.newsletter.subscribe': 'Subscrever',
     'footer.rights': 'Todos os direitos reservados.',
     
+    // Auth
+    'auth.welcome': 'Bem-vindo',
+    'auth.description': 'Aceda à sua conta ou crie uma nova',
+    'auth.login': 'Entrar',
+    'auth.signup': 'Criar Conta',
+    'auth.email': 'Email',
+    'auth.password': 'Password',
+    'auth.full_name': 'Nome Completo',
+    'auth.confirm_password': 'Confirmar Password',
+    'auth.forgot_password': 'Esqueceu a password?',
+    'auth.logout': 'Terminar Sessão',
+    
     // Common
     'common.loading': 'A carregar...',
     'common.error': 'Ocorreu um erro',
@@ -335,6 +347,18 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.newsletter.placeholder': 'Your email',
     'footer.newsletter.subscribe': 'Subscribe',
     'footer.rights': 'All rights reserved.',
+    
+    // Auth
+    'auth.welcome': 'Welcome',
+    'auth.description': 'Access your account or create a new one',
+    'auth.login': 'Login',
+    'auth.signup': 'Sign Up',
+    'auth.email': 'Email',
+    'auth.password': 'Password',
+    'auth.full_name': 'Full Name',
+    'auth.confirm_password': 'Confirm Password',
+    'auth.forgot_password': 'Forgot password?',
+    'auth.logout': 'Sign Out',
     
     // Common
     'common.loading': 'Loading...',
