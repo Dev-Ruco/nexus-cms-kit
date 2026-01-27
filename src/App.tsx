@@ -15,6 +15,7 @@ import Publications from "./pages/Publications";
 import Data from "./pages/Data";
 import Contact from "./pages/Contact";
 import BecomeMember from "./pages/BecomeMember";
+import Press from "./pages/Press";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,9 @@ const App = () => (
             {/* Actividades */}
             <Route path="/actividades" element={<Activities />} />
             <Route path="/actividades/:id" element={<ActivityDetail />} />
+            
+            {/* Imprensa */}
+            <Route path="/imprensa" element={<Press />} />
             
             {/* Dados */}
             <Route path="/dados" element={<Data />} />

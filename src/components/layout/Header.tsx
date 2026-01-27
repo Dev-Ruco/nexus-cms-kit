@@ -18,6 +18,7 @@ const navItems = [
     ]
   },
   { key: 'nav.activities', href: '/actividades' },
+  { key: 'nav.press', href: '/imprensa' },
   { key: 'nav.data', href: '/dados' },
   { key: 'nav.publications', href: '/publicacoes' },
   { key: 'nav.contact', href: '/contacto' },
