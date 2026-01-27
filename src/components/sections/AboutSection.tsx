@@ -3,10 +3,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { 
   Target, 
   Eye, 
-  Users, 
-  Shield, 
-  Lightbulb, 
-  TrendingUp,
+  Compass,
   GraduationCap,
   Lock,
   Scale,
@@ -36,14 +33,6 @@ const itemVariants = {
     transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] as Easing }
   }
 };
-
-// Values data - compact
-const values = [
-  { icon: Users, title_pt: 'Inclusão', title_en: 'Inclusion', color: 'bg-secondary' },
-  { icon: Shield, title_pt: 'Integridade', title_en: 'Integrity', color: 'bg-primary' },
-  { icon: Lightbulb, title_pt: 'Inovação', title_en: 'Innovation', color: 'bg-accent' },
-  { icon: TrendingUp, title_pt: 'Impacto', title_en: 'Impact', color: 'bg-secondary' }
-];
 
 // Areas of action data - compact
 const areasOfAction = [
@@ -120,13 +109,13 @@ export function AboutSection() {
           </motion.div>
         </div>
 
-        {/* Mission & Vision - Colored Cards */}
+        {/* Mission, Vision & Objectives - 3 Colored Cards */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-50px' }}
-          className="grid md:grid-cols-2 gap-6 mb-12"
+          className="grid md:grid-cols-3 gap-6 mb-12"
         >
           {/* Mission */}
           <motion.div variants={itemVariants}>
@@ -171,42 +160,28 @@ export function AboutSection() {
               </CardContent>
             </Card>
           </motion.div>
-        </motion.div>
 
-        {/* Values - Compact Horizontal */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.5 }}
-          className="mb-12"
-        >
-          <h3 className="text-xl md:text-2xl font-serif text-foreground text-center mb-8">
-            {t('about.values')}
-          </h3>
-          
-          <div className="flex flex-wrap justify-center gap-4">
-            {values.map((value, index) => {
-              const Icon = value.icon;
-              return (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
-                  className="flex items-center gap-3 bg-card rounded-full px-5 py-3 border border-border/50 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all"
-                >
-                  <div className={`w-10 h-10 rounded-full ${value.color} flex items-center justify-center`}>
-                    <Icon className="w-5 h-5 text-white" />
+          {/* Objectives */}
+          <motion.div variants={itemVariants}>
+            <Card className="h-full bg-accent text-white border-0 shadow-lg hover:shadow-xl transition-shadow">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
+                    <Compass className="w-6 h-6 text-white" />
                   </div>
-                  <span className="font-medium text-foreground">
-                    {language === 'pt' ? value.title_pt : value.title_en}
-                  </span>
-                </motion.div>
-              );
-            })}
-          </div>
+                  <h3 className="text-xl font-serif font-semibold">
+                    {t('about.objectives')}
+                  </h3>
+                </div>
+                <p className="text-white/90 leading-relaxed text-sm">
+                  {language === 'pt'
+                    ? 'Promover a literacia digital, fortalecer a participação cívica online, e defender os direitos digitais de todos os moçambicanos.'
+                    : 'To promote digital literacy, strengthen online civic participation, and defend the digital rights of all Mozambicans.'
+                  }
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
         </motion.div>
 
         {/* Areas of Action - Compact Grid */}

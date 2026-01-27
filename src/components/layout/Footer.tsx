@@ -3,7 +3,7 @@ import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin, Youtube, S
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import logo from '@/assets/logo.png';
+import logo from '@/assets/Logotipo_oficial.png';
 
 const quickLinks = [
   { key: 'nav.about', href: '/sobre' },
@@ -32,7 +32,7 @@ export function Footer() {
           {/* Brand Column */}
           <div className="lg:col-span-1">
             <Link to="/" className="inline-block mb-4">
-              <img src={logo} alt="CIBERCIDADÃOS" className="h-12 w-auto" />
+              <img src={logo} alt="CIBERCIDADÃOS" className="h-14 w-auto brightness-0 invert" />
             </Link>
             <p className="text-white/70 text-sm leading-relaxed mb-6">
               {t('footer.description')}
