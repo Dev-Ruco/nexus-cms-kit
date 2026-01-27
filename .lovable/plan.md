@@ -1,168 +1,144 @@
 
 
-# Plano: Refinamento da Integracao Visual do Hero
+# Plano: Hero Section Escura com Integracao Visual Completa
 
-## Diagnostico do Problema
+## Analise da Situacao
 
-O Hero actual tem a direccao correcta, mas a execucao falha em criar uma composicao unificada. Os elementos parecem camadas independentes em vez de uma unica peca visual coerente.
-
----
-
-## 1. Fundo com Gradiente de 3 Camadas
-
-### Problema Actual
-- Fundo `bg-background` simples (branco/off-white)
-- Sem transicao para a zona da imagem
-
-### Solucao
-Criar um gradiente horizontal em 3 zonas:
-
-```text
-Esquerda (0-35%)     Centro (35-60%)      Direita (60-100%)
-+------------------+--------------------+-------------------+
-| Azul institucional| Transicao suave   | Claro / difuso    |
-| profundo (#001A3D)| azul-petroleo     | para acolher      |
-| com opacidade 3-5%| subtil            | a imagem          |
-+------------------+--------------------+-------------------+
-```
-
-### Implementacao CSS
-Adicionar gradiente ao fundo da seccao:
-- `bg-gradient-to-r from-primary/[0.03] via-secondary/[0.02] to-transparent`
-- Criar uma sensacao de que o fundo "nasce" da imagem
+O plano anterior criou um Hero **claro** (fundo branco, texto azul). A imagem de referencia mostra um Hero **escuro** (fundo azul institucional, texto branco, blobs coloridos visiveis). Sao abordagens visuais opostas.
 
 ---
 
-## 2. Reducao de Blobs (de 5 para 2)
+## Objectivo Final
 
-### Problema Actual
-- 5 circulos decorativos dispersos (teal, coral, amarelo, verde, azul)
-- Parecem decoracao aleatoria, nao pertencem a cena
-
-### Solucao
-Manter apenas 2 blobs estrategicos:
-
-| Blob | Posicao | Cor | Opacidade | Proposito |
-|------|---------|-----|-----------|-----------|
-| Principal | Lado direito da imagem, nivel medio | Teal (secondary) | 8-10% | Energia/contexto |
-| Secundario | Entre as figuras (base) | Accent (verde) | 6-8% | Acompanhar movimento |
-
-### Posicionamento Correcto
-- Blob principal: acompanha o movimento do grupo (lado direito)
-- Blob secundario: encaixa na base, entre os corpos (nao atras das cabecas)
-- Ambos com blur maior para maior suavidade
+Criar um Hero onde:
+- O fundo escuro e a fotografia formam uma unica cena
+- Os blobs coloridos pertencem naturalmente a composicao
+- A imagem parece "nascer" do fundo, nao "colada" em cima
 
 ---
 
-## 3. Tratamento da Imagem com Sombra Difusa
-
-### Problema Actual
-- Imagem com `rounded-3xl` e `shadow-2xl`
-- Parece recortada e colada
-- Falta transicao suave
-
-### Solucao: Mascara de Sombra + Halo
-
-**Camada 1 - Sombra difusa atras:**
-- Div posicionado atras da imagem
-- `blur-3xl` ou `blur-[60px]`
-- Cor: `bg-primary/8` (azul muito subtil)
-- Tamanho: ligeiramente maior que a imagem
-
-**Camada 2 - Halo de cor:**
-- Gradiente radial muito subtil (5-8% opacidade)
-- Cor derivada da paleta (teal/azul)
-- Posicionado atras da imagem
-
-**Camada 3 - Fade na base:**
-- Gradiente na parte inferior da imagem
-- `from-transparent via-transparent to-background/40`
-- A base "desaparece" no fundo
-
-### Resultado Visual
-O cerebro deixa de ver um "recorte" e passa a ver a imagem integrada no ambiente.
-
----
-
-## 4. Icone WiFi - Transformacao
-
-### Problema Actual
-- Icone literal (`<Wifi />` do Lucide)
-- Caixa visivel com `bg-secondary/20 p-4 rounded-2xl`
-- Parece infantil e distrai
-
-### Solucao A: WiFi Abstracto
-- Remover a caixa/fundo
-- Icone muito menor
-- Opacidade muito baixa (10-15%)
-- Parcialmente escondido atras da imagem (z-index negativo)
-- Posicao: canto superior direito da imagem
-
-### Solucao B: Substituir por Linhas Curvas (Recomendado)
-Desenhar SVG inline com 2-3 linhas curvas organicas:
-- Sugerem "ligacao" sem serem tecnologia literal
-- Cor: `stroke-secondary` com opacidade 8-12%
-- Posicao: emergem do lado direito da imagem
-- Nao interferem com a composicao principal
+## 1. Fundo Azul Escuro Institucional
 
 ### Implementacao
+- Substituir `bg-gradient-to-r from-primary/[0.03]...` por fundo azul solido
+- Cor: `bg-primary` (#001A3D) ou gradiente subtil azul-para-azul-petroleo
+- Remover todos os tons claros/brancos
+
 ```text
-<svg> com 2-3 paths curvos
-- stroke-secondary/10
-- stroke-width: 1-2px
-- Nenhum fill
-- Posicao absoluta, z-index baixo
+Esquerda: Azul institucional profundo (#001A3D)
+Centro: Transicao para azul-petroleo (#00303D)
+Direita: Ligeiramente mais claro para receber a imagem
 ```
 
 ---
 
-## 5. Card de Estatisticas
+## 2. Blobs Coloridos Visiveis
+
+### Configuracao (inspirada na referencia)
+
+| Blob | Cor | Tamanho | Posicao | Opacidade |
+|------|-----|---------|---------|-----------|
+| Coral | bg-orange-500 | w-48 h-48 | top-40 right-[45%] | 40-50% |
+| Azul | bg-blue-600 | w-40 h-40 | top-20 right-[30%] | 35-45% |
+| Amarelo | bg-yellow-400 | w-32 h-32 | bottom-32 right-[15%] | 40-50% |
+| Verde | bg-accent | w-28 h-28 | bottom-40 right-[35%] | 30-40% |
+
+### Notas
+- Blobs com blur moderado (blur-2xl a blur-3xl), nao excessivo
+- Alguns blobs parcialmente atras da imagem (z-index negativo)
+- Posicionamento estrategico: acompanham o movimento do grupo
+
+---
+
+## 3. Icone WiFi Estilizado
+
+### Implementacao
+- Manter icone WiFi mas em versao mais abstracta
+- Cor: `text-secondary` (teal)
+- Opacidade: 60-80% (mais visivel que antes)
+- Posicao: canto superior direito da imagem
+- Opcional: adicionar 2-3 arcos separados com animacao sutil
+
+---
+
+## 4. Fotografia Sem Fundo (Integrada)
 
 ### Problema Actual
-- Card com `bg-card` e `border border-border/50`
-- Parece "colado" na imagem
+A imagem tem `rounded-3xl` e parece um "cartao" recortado.
 
 ### Solucao
-- Manter o card mas com sombra mais difusa
-- Adicionar halo subtil atras (`blur-xl` com cor da marca)
-- Reduzir tamanho ligeiramente
-- Garantir que "respira" com a composicao
-
----
-
-## 6. Ajuste de Brilho da Imagem (Opcional)
-
-### Recomendacao
-Aplicar filtro CSS subtil para reduzir brilho:
-- `brightness(0.93)` ou `brightness(0.95)`
-- `contrast(1.02)` para manter definicao
+- Remover `rounded-3xl` da imagem
+- Usar `object-cover` com posicionamento estrategico
+- Adicionar fade nas bordas (esquerda e base) para fundir com o fundo
+- Gradientes de transicao:
+  - Esquerda: `bg-gradient-to-r from-primary via-primary/50 to-transparent`
+  - Base: `bg-gradient-to-t from-primary/80 to-transparent`
 
 ### Resultado
-- Expressao menos exagerada
-- Mais credivel e institucional
-- Melhor integracao com o fundo
+A imagem "desaparece" nas bordas, fundindo-se com o fundo azul.
 
 ---
 
-## Estrutura Final do Layout
+## 5. Tipografia (Texto Branco)
+
+### Alteracoes
+| Elemento | Actual | Novo |
+|----------|--------|------|
+| Titulo | text-primary (azul) | text-white |
+| Subtitulo | text-muted-foreground | text-white/80 |
+| Badge | bg-secondary/10 text-secondary | glass text-white/90 |
+
+---
+
+## 6. Botoes Actualizados
+
+### CTA Principal
+- Manter `btn-gradient` (teal)
+- Texto branco
+
+### CTA Secundario
+- Mudar de `border-primary text-primary` para `border-white/80 text-white`
+- Hover: `bg-white/10`
+
+---
+
+## 7. Card de Estatisticas
+
+### Ajustes para tema escuro
+- Fundo: `bg-white` ou `bg-card` (contraste com fundo escuro)
+- Texto: `text-primary` (azul sobre branco)
+- Adicionar sombra mais pronunciada para destacar
+
+---
+
+## 8. Scroll Indicator
+
+### Cores para tema escuro
+- Texto: `text-white/60`
+- Borda: `border-white/30`
+- Dot: `bg-white/60`
+
+---
+
+## Estrutura Visual Final
 
 ```text
-+----------------------------------------------------------------+
-| [Gradiente 3 camadas: azul profundo → transitorio → claro]     |
-|                                                                |
-|  +-----------------------+   +---------------------------+     |
-|  | Badge                 |   |                           |     |
-|  | Titulo (azul)         |   |  [Sombra difusa atras]    |     |
-|  | Subtitulo (cinza)     |   |  [Halo subtil]            |     |
-|  | [CTA1] [CTA2]         |   |       FOTOGRAFIA          |     |
-|  |                       |   |  [Linhas curvas organicas]|     |
-|  |                       |   |       [2 blobs integrados]|     |
-|  +-----------------------+   |  [Fade na base]           |     |
-|                              |       [Card stats]         |     |
-|                              +---------------------------+     |
-|                                                                |
-|                    [Scroll indicator]                          |
-+----------------------------------------------------------------+
++------------------------------------------------------------------+
+| [Fundo azul escuro institucional #001A3D]                        |
+|                                                                  |
+|  [Blob coral]              [Blob azul]                           |
+|         \                      /     [WiFi teal]                 |
+|  +-----------------+    +---------------------------+            |
+|  | Badge (glass)   |    |                           |            |
+|  | Titulo (branco) |    |      FOTOGRAFIA           |            |
+|  | Subtit (branco) |    |  [fade nas bordas]        |            |
+|  | [CTA1] [CTA2]   |    |         [Blob amarelo]    |            |
+|  +-----------------+    |    [Blob verde]           |            |
+|                         |      [Card stats branco]  |            |
+|                         +---------------------------+            |
+|                                                                  |
+|              [Scroll indicator branco]                           |
++------------------------------------------------------------------+
 ```
 
 ---
@@ -171,34 +147,34 @@ Aplicar filtro CSS subtil para reduzir brilho:
 
 ### `src/components/sections/HeroSection.tsx`
 
-Alteracoes:
-1. Adicionar gradiente de fundo de 3 camadas
-2. Reduzir blobs de 5 para 2 (reposicionar)
-3. Adicionar camada de sombra difusa atras da imagem
-4. Adicionar halo de cor subtil
-5. Adicionar fade na base da imagem
-6. Substituir icone WiFi por linhas curvas organicas (SVG)
-7. Ajustar card de estatisticas
-8. Opcional: aplicar filtro de brilho na imagem
+Alteracoes completas:
+1. Fundo: `bg-primary` com gradiente subtil
+2. Blobs: 4-5 blobs coloridos com opacidade visivel
+3. WiFi: Icone teal abstracto
+4. Imagem: Remover rounded, adicionar fades nas bordas
+5. Texto: Mudar para branco
+6. Botoes: Actualizar para tema escuro
+7. Card: Fundo branco para contraste
+8. Scroll: Cores brancas
 
 ---
 
 ## O Que NAO Sera Alterado
 
-- Conteudo dos textos (traducoes)
-- CTAs e hierarquia
-- Fotografia original
-- Restantes seccoes do site (Header, Footer, etc.)
-- Estrutura de duas colunas
+- Conteudo dos textos (traducoes mantidas)
+- Hierarquia de informacao
+- Fotografia original (hero-photo.jpg)
+- Restantes seccoes do site
+- Header e Footer
 
 ---
 
 ## Resultado Esperado
 
 Uma Hero Section onde:
-- O fundo parece nascer da fotografia
-- Os elementos pertencem a mesma cena
-- A imagem esta integrada, nao "recortada"
-- A composicao e mais credivel e institucional
-- O tom visual e mais sério, sem perder dinamismo
+- O fundo azul escuro e a fotografia sao uma unica composicao
+- Os blobs coloridos pertencem a cena (energia, dinamismo)
+- A imagem parece "nascer" do fundo, sem recorte visivel
+- O tom e institucional mas vibrante
+- Alta legibilidade com texto branco sobre azul escuro (contraste 15.6:1)
 
