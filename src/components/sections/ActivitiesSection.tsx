@@ -58,7 +58,7 @@ export function ActivitiesSection() {
               className="group"
             >
               <Link to={`/actividades/${activity.id}`} className="block">
-                <div className="card-elevated h-full flex flex-col overflow-hidden p-0">
+                <div className="bg-card rounded-xl h-full flex flex-col overflow-hidden border border-border/50 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                   {/* Image */}
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <img

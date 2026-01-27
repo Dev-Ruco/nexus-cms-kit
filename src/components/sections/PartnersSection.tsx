@@ -11,7 +11,7 @@ export function PartnersSection() {
   const regularPartners = activePartners.filter(p => !p.featured);
 
   return (
-    <section className="section-padding bg-muted/30">
+    <section className="section-padding bg-muted/20">
       <div className="container-custom">
         {/* Header */}
         <motion.div
@@ -51,7 +51,7 @@ export function PartnersSection() {
                   transition={{ duration: 0.3, delay: index * 0.05 }}
                   className="group"
                 >
-                  <div className="card-elevated p-6 md:p-8 flex flex-col items-center justify-center h-full min-h-[140px] transition-all duration-300 hover:border-secondary">
+                  <div className="bg-card rounded-xl p-6 md:p-8 flex flex-col items-center justify-center h-full min-h-[140px] border border-border/50 shadow-sm transition-all duration-300 hover:shadow-md hover:border-secondary">
                     <img
                       src={partner.logo}
                       alt={partner.name}

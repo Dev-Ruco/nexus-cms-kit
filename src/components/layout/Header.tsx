@@ -44,8 +44,8 @@ export function Header() {
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
         isScrolled
-          ? 'bg-primary/95 backdrop-blur-md shadow-lg'
-          : 'bg-transparent'
+          ? 'bg-white shadow-md'
+          : 'bg-white/95 backdrop-blur-sm'
       )}
     >
       <div className="container-custom">
@@ -66,8 +66,8 @@ export function Header() {
                 key={item.key}
                 to={item.href}
                 className={cn(
-                  'px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors link-underline',
-                  location.pathname === item.href && 'text-white'
+                  'px-4 py-2 text-sm font-medium text-primary hover:text-secondary transition-colors link-underline',
+                  location.pathname === item.href && 'text-secondary'
                 )}
               >
                 {t(item.key)}
@@ -82,7 +82,7 @@ export function Header() {
               variant="ghost"
               size="sm"
               onClick={toggleLanguage}
-              className="text-white/80 hover:text-white hover:bg-white/10 gap-2"
+              className="text-primary hover:text-secondary hover:bg-secondary/5 gap-2"
             >
               <Globe className="h-4 w-4" />
               <span className="font-medium">{language.toUpperCase()}</span>
@@ -92,7 +92,7 @@ export function Header() {
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden text-white hover:bg-white/10"
+              className="lg:hidden text-primary hover:bg-secondary/5"
               onClick={() => setIsOpen(!isOpen)}
               aria-label={isOpen ? 'Fechar menu' : 'Abrir menu'}
             >
@@ -110,7 +110,7 @@ export function Header() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden bg-primary/98 backdrop-blur-lg border-t border-white/10"
+            className="lg:hidden bg-white border-t border-border"
           >
             <nav className="container-custom py-6 flex flex-col gap-2">
               {navItems.map((item, index) => (
@@ -123,8 +123,8 @@ export function Header() {
                   <Link
                     to={item.href}
                     className={cn(
-                      'block px-4 py-3 text-lg font-medium text-white/80 hover:text-white hover:bg-white/5 rounded-lg transition-colors',
-                      location.pathname === item.href && 'text-white bg-white/10'
+                      'block px-4 py-3 text-lg font-medium text-primary hover:text-secondary hover:bg-secondary/5 rounded-lg transition-colors',
+                      location.pathname === item.href && 'text-secondary bg-secondary/5'
                     )}
                   >
                     {t(item.key)}
