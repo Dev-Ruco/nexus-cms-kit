@@ -73,6 +73,40 @@ export interface Publication {
   pages: number;
 }
 
+export interface Event {
+  id: string;
+  title_pt: string;
+  title_en: string;
+  description_pt: string;
+  description_en: string;
+  date: string;
+  time: string;
+  location_pt: string;
+  location_en: string;
+  type: 'presencial' | 'online' | 'hibrido';
+  image: string;
+  registration_url: string;
+  featured: boolean;
+}
+
+export interface GalleryImage {
+  id: string;
+  url: string;
+  caption_pt: string;
+  caption_en: string;
+  event_id?: string;
+  date: string;
+}
+
+export interface Video {
+  id: string;
+  title_pt: string;
+  title_en: string;
+  youtube_id: string;
+  thumbnail: string;
+  date: string;
+}
+
 // Activities Data
 export const activities: Activity[] = [
   {
@@ -540,5 +574,157 @@ export const publications: Publication[] = [
     thumbnail: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400&h=300&fit=crop',
     date: '2023-07-20',
     pages: 36,
+  },
+];
+
+// Events Data
+export const events: Event[] = [
+  {
+    id: '1',
+    title_pt: 'Conferência Nacional de Cidadania Digital',
+    title_en: 'National Digital Citizenship Conference',
+    description_pt: 'Junte-se a nós para dois dias de palestras, workshops e networking sobre cidadania digital em Moçambique.',
+    description_en: 'Join us for two days of talks, workshops and networking on digital citizenship in Mozambique.',
+    date: '2026-02-15',
+    time: '09:00',
+    location_pt: 'Centro de Conferências Joaquim Chissano, Maputo',
+    location_en: 'Joaquim Chissano Conference Center, Maputo',
+    type: 'presencial',
+    image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop',
+    registration_url: '#',
+    featured: true,
+  },
+  {
+    id: '2',
+    title_pt: 'Webinar: Segurança Digital para Famílias',
+    title_en: 'Webinar: Digital Security for Families',
+    description_pt: 'Aprenda a proteger a sua família no ambiente digital. Sessão interactiva com especialistas.',
+    description_en: 'Learn how to protect your family in the digital environment. Interactive session with experts.',
+    date: '2026-02-22',
+    time: '18:00',
+    location_pt: 'Online via Zoom',
+    location_en: 'Online via Zoom',
+    type: 'online',
+    image: 'https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=800&h=600&fit=crop',
+    registration_url: '#',
+    featured: true,
+  },
+  {
+    id: '3',
+    title_pt: 'Workshop de Verificação de Factos',
+    title_en: 'Fact-Checking Workshop',
+    description_pt: 'Aprenda técnicas práticas para identificar e combater a desinformação online.',
+    description_en: 'Learn practical techniques to identify and combat online misinformation.',
+    date: '2026-03-05',
+    time: '14:00',
+    location_pt: 'Universidade Eduardo Mondlane, Maputo',
+    location_en: 'Eduardo Mondlane University, Maputo',
+    type: 'presencial',
+    image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&h=600&fit=crop',
+    registration_url: '#',
+    featured: false,
+  },
+  {
+    id: '4',
+    title_pt: 'Seminário Híbrido: Privacidade de Dados',
+    title_en: 'Hybrid Seminar: Data Privacy',
+    description_pt: 'Discussão sobre protecção de dados pessoais com participação presencial e online.',
+    description_en: 'Discussion on personal data protection with in-person and online participation.',
+    date: '2026-03-12',
+    time: '10:00',
+    location_pt: 'Hotel Polana, Maputo / Online',
+    location_en: 'Polana Hotel, Maputo / Online',
+    type: 'hibrido',
+    image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&h=600&fit=crop',
+    registration_url: '#',
+    featured: false,
+  },
+];
+
+// Gallery Images Data
+export const galleryImages: GalleryImage[] = [
+  {
+    id: '1',
+    url: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&h=800&fit=crop',
+    caption_pt: 'Workshop de Segurança Digital - Maputo 2024',
+    caption_en: 'Digital Security Workshop - Maputo 2024',
+    date: '2024-01-15',
+  },
+  {
+    id: '2',
+    url: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=800&fit=crop',
+    caption_pt: 'Conferência Anual de Cidadania Digital',
+    caption_en: 'Annual Digital Citizenship Conference',
+    date: '2024-01-10',
+  },
+  {
+    id: '3',
+    url: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&h=800&fit=crop',
+    caption_pt: 'Formação em Escolas Secundárias',
+    caption_en: 'Training in Secondary Schools',
+    date: '2023-12-20',
+  },
+  {
+    id: '4',
+    url: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=800&fit=crop',
+    caption_pt: 'Lançamento da Plataforma de E-Learning',
+    caption_en: 'E-Learning Platform Launch',
+    date: '2023-12-15',
+  },
+  {
+    id: '5',
+    url: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&h=800&fit=crop',
+    caption_pt: 'Campanha Anti-Desinformação',
+    caption_en: 'Anti-Misinformation Campaign',
+    date: '2023-11-20',
+  },
+  {
+    id: '6',
+    url: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&h=800&fit=crop',
+    caption_pt: 'Seminário de Privacidade de Dados',
+    caption_en: 'Data Privacy Seminar',
+    date: '2023-11-10',
+  },
+  {
+    id: '7',
+    url: 'https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=800&h=800&fit=crop',
+    caption_pt: 'Sessão de Formação Online',
+    caption_en: 'Online Training Session',
+    date: '2023-10-25',
+  },
+  {
+    id: '8',
+    url: 'https://images.unsplash.com/photo-1552581234-26160f608093?w=800&h=800&fit=crop',
+    caption_pt: 'Reunião com Parceiros Estratégicos',
+    caption_en: 'Meeting with Strategic Partners',
+    date: '2023-10-15',
+  },
+];
+
+// Videos Data
+export const videos: Video[] = [
+  {
+    id: '1',
+    title_pt: 'O que é Cidadania Digital?',
+    title_en: 'What is Digital Citizenship?',
+    youtube_id: 'dQw4w9WgXcQ',
+    thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
+    date: '2024-01-10',
+  },
+  {
+    id: '2',
+    title_pt: 'Como Proteger a Sua Privacidade Online',
+    title_en: 'How to Protect Your Online Privacy',
+    youtube_id: 'dQw4w9WgXcQ',
+    thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
+    date: '2023-12-05',
+  },
+  {
+    id: '3',
+    title_pt: 'Identificar Notícias Falsas em 5 Passos',
+    title_en: 'Identify Fake News in 5 Steps',
+    youtube_id: 'dQw4w9WgXcQ',
+    thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
+    date: '2023-11-20',
   },
 ];

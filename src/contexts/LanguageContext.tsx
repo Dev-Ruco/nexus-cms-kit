@@ -42,6 +42,28 @@ const translations: Record<Language, Record<string, string>> = {
     'activities.page.title': 'Nossas Actividades',
     'activities.page.subtitle': 'Conheça todas as iniciativas que desenvolvemos para promover a cidadania digital em Moçambique.',
     
+    // Events
+    'events.title': 'Próximos Eventos',
+    'events.subtitle': 'Participe das nossas iniciativas',
+    'events.learn_more': 'Ver Todos os Eventos',
+    'events.participate': 'Participar',
+    'events.register': 'Inscrever-se',
+    'events.add_calendar': 'Agendar',
+    'events.presencial': 'Presencial',
+    'events.online': 'Online',
+    'events.hibrido': 'Híbrido',
+    'events.all': 'Todos',
+    
+    // Press
+    'nav.press': 'Imprensa',
+    'press.title': 'Centro de Imprensa',
+    'press.subtitle': 'Eventos, galeria de fotos e vídeos da nossa actuação',
+    'press.events': 'Próximos Eventos',
+    'press.gallery': 'Galeria de Fotos',
+    'press.videos': 'Vídeos',
+    'press.contact': 'Contacto para Imprensa',
+    'press.download_kit': 'Descarregar Kit de Imprensa',
+    
     // Data Section
     'data.title': 'Moçambique em Números',
     'data.subtitle': 'O cenário digital no país',
@@ -186,6 +208,28 @@ const translations: Record<Language, Record<string, string>> = {
     'activities.related': 'Related Activities',
     'activities.page.title': 'Our Activities',
     'activities.page.subtitle': 'Discover all the initiatives we develop to promote digital citizenship in Mozambique.',
+    
+    // Events
+    'events.title': 'Upcoming Events',
+    'events.subtitle': 'Join our initiatives',
+    'events.learn_more': 'View All Events',
+    'events.participate': 'Participate',
+    'events.register': 'Register',
+    'events.add_calendar': 'Add to Calendar',
+    'events.presencial': 'In-Person',
+    'events.online': 'Online',
+    'events.hibrido': 'Hybrid',
+    'events.all': 'All',
+    
+    // Press
+    'nav.press': 'Press',
+    'press.title': 'Press Center',
+    'press.subtitle': 'Events, photo gallery and videos of our work',
+    'press.events': 'Upcoming Events',
+    'press.gallery': 'Photo Gallery',
+    'press.videos': 'Videos',
+    'press.contact': 'Press Contact',
+    'press.download_kit': 'Download Press Kit',
     
     // Data Section
     'data.title': 'Mozambique in Numbers',
