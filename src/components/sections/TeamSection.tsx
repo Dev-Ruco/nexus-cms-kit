@@ -9,7 +9,10 @@ export function TeamSection() {
   const sortedMembers = [...teamMembers].sort((a, b) => a.order - b.order);
 
   return (
-    <section className="section-padding bg-background">
+    <section className="section-padding bg-background relative overflow-hidden">
+      {/* Decorative top separator */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-secondary to-accent" />
+      
       <div className="container-custom">
         {/* Header */}
         <motion.div

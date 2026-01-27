@@ -11,8 +11,12 @@ export function PartnersSection() {
   const regularPartners = activePartners.filter(p => !p.featured);
 
   return (
-    <section className="section-padding bg-muted/20">
-      <div className="container-custom">
+    <section className="section-padding bg-gradient-to-br from-secondary/10 via-background to-accent/10 relative overflow-hidden">
+      {/* Decorative circles */}
+      <div className="absolute top-10 right-10 w-40 h-40 bg-secondary/5 rounded-full blur-2xl" />
+      <div className="absolute bottom-10 left-10 w-60 h-60 bg-accent/5 rounded-full blur-2xl" />
+      
+      <div className="container-custom relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
