@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Play, Wifi, ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
-import heroImage from '@/assets/hero-transparent.png';
+import heroImage from '@/assets/hero-new.png';
 
 export function HeroSection() {
   const { t } = useLanguage();
@@ -128,11 +128,11 @@ export function HeroSection() {
             </motion.div>
 
             {/* Main Image Container - Larger, fills section properly */}
-            <div className="relative">
+            <div className="relative h-full">
               <img
                 src={heroImage}
                 alt="Jovens moçambicanos com smartphone"
-                className="w-full h-auto min-h-[350px] lg:min-h-[450px] object-contain object-center drop-shadow-2xl"
+                className="w-full h-full min-h-[400px] lg:min-h-[500px] object-cover object-top drop-shadow-2xl"
               />
             </div>
 
