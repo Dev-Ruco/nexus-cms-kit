@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import logo from '@/assets/logo.png';
+import logo from '@/assets/Logotipo_oficial.png';
 
 const navItems = [
   { key: 'nav.home', href: '/' },
@@ -55,7 +55,7 @@ export function Header() {
             <img
               src={logo}
               alt="CIBERCIDADÃOS"
-              className="h-10 md:h-12 w-auto"
+              className="h-14 md:h-16 w-auto"
             />
           </Link>
 

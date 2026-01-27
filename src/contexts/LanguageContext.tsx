@@ -49,7 +49,7 @@ const translations: Record<Language, Record<string, string>> = {
     'about.title': 'Sobre Nós',
     'about.mission': 'Missão',
     'about.vision': 'Visão',
-    'about.values': 'Os Nossos Valores',
+    'about.objectives': 'Objectivos',
     'about.areas': 'Áreas de Actuação',
     
     // Team
@@ -115,7 +115,7 @@ const translations: Record<Language, Record<string, string>> = {
     'about.title': 'About Us',
     'about.mission': 'Mission',
     'about.vision': 'Vision',
-    'about.values': 'Our Values',
+    'about.objectives': 'Objectives',
     'about.areas': 'Areas of Action',
     
     // Team
