@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Play, Wifi, ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
-import heroImage from '@/assets/hero-new.jpg';
+import heroImage from '@/assets/hero-transparent.png';
 
 export function HeroSection() {
   const { t } = useLanguage();
@@ -127,19 +127,13 @@ export function HeroSection() {
               <Wifi className="w-16 h-16 text-secondary/90" strokeWidth={1.5} />
             </motion.div>
 
-            {/* Main Image Container - No rounded corners, seamless integration */}
+            {/* Main Image Container - Transparent PNG, seamless integration */}
             <div className="relative">
               <img
                 src={heroImage}
                 alt="Jovens moçambicanos com smartphone"
-                className="w-full h-[400px] md:h-[500px] lg:h-[550px] object-cover"
+                className="w-full h-[400px] md:h-[500px] lg:h-[550px] object-contain drop-shadow-2xl"
               />
-              {/* Left fade - blends into dark background */}
-              <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-primary via-primary/60 to-transparent" />
-              {/* Bottom fade - blends into dark background */}
-              <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-primary via-primary/70 to-transparent" />
-              {/* Top subtle fade */}
-              <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-primary/40 to-transparent" />
             </div>
 
             {/* Featured Card - "EM DESTAQUE" style */}
