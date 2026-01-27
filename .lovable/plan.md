@@ -1,135 +1,204 @@
 
 
-# Plano: Hero Section Clara e Institucional
+# Plano: Refinamento da Integracao Visual do Hero
 
-## Objectivo
-Transformar a Hero Section actual (fundo escuro com overlay pesado) num layout claro e moderno, inspirado na referencia fornecida, mantendo a fotografia e o conteudo existentes.
+## Diagnostico do Problema
 
----
-
-## Analise da Referencia
-
-A imagem de referencia mostra um hero com:
-- Layout em duas colunas (texto esquerda, imagem direita)
-- Formas geometricas decorativas (circulos coloridos: coral, azul, amarelo, verde, teal)
-- Icones graficos (WiFi) como elementos de accent
-- Botoes com cantos arredondados
-- Card de destaque no canto inferior direito
+O Hero actual tem a direccao correcta, mas a execucao falha em criar uma composicao unificada. Os elementos parecem camadas independentes em vez de uma unica peca visual coerente.
 
 ---
 
-## Mudancas Propostas
+## 1. Fundo com Gradiente de 3 Camadas
 
-### 1. Estrutura de Layout
-| Elemento | Actual | Novo |
-|----------|--------|------|
-| Layout | Imagem fullscreen + overlay | Duas colunas: texto (esq) + imagem (dir) |
-| Fundo | Gradiente azul escuro sobre foto | Branco/off-white limpo |
-| Altura | min-h-screen | min-h-[90vh] ou altura dinamica |
+### Problema Actual
+- Fundo `bg-background` simples (branco/off-white)
+- Sem transicao para a zona da imagem
 
-### 2. Tratamento da Imagem
-- Remover overlay escuro pesado
-- Posicionar imagem no lado direito (50-60% da largura)
-- Aplicar apenas sombra subtil ou gradiente minimo para integracao
-- Manter a mesma fotografia (`hero-photo.jpg`)
+### Solucao
+Criar um gradiente horizontal em 3 zonas:
 
-### 3. Tipografia e Cores
-| Elemento | Actual | Novo |
-|----------|--------|------|
-| Titulo | text-white | text-primary (azul #001A3D) |
-| Subtitulo | text-white/80 | text-muted-foreground (cinza escuro) |
-| Badge | glass (fundo escuro) | bg-secondary/10 text-secondary border |
-
-### 4. Elementos Graficos Decorativos
-Inspirados na referencia, adicionar formas geometricas em opacidade baixa:
-- Circulo teal (grande, canto superior direito da imagem)
-- Circulo coral/laranja (medio, interseccao texto/imagem)
-- Circulo amarelo (pequeno, proximo da imagem)
-- Circulo azul (pequeno, decorativo)
-- Icone WiFi estilizado (elemento de conexao digital)
-
-Todas as formas usam cores da paleta CIBERCIDADAOS:
-- Teal: #00A3A4 (secondary)
-- Verde: #00D1B2 (accent)
-- Azul: #001A3D (primary)
-- Coral/Laranja: tom complementar quente
-
-### 5. Botoes (CTAs)
-- Manter btn-gradient para CTA principal
-- Segundo botao: borda institucional (border-primary text-primary)
-- Cantos mais arredondados (rounded-full ou rounded-xl)
-
-### 6. Scroll Indicator
-- Alterar cores para tema claro: text-primary/60 e border-primary/30
-
----
-
-## Codigo a Modificar
-
-### Ficheiro: `src/components/sections/HeroSection.tsx`
-
-Alteracoes principais:
-1. Remover o overlay escuro (`bg-gradient-to-b from-primary/80...`)
-2. Mudar layout para grid de duas colunas
-3. Adicionar formas decorativas com motion animations
-4. Actualizar cores do texto para azul/cinza
-5. Reposicionar imagem para lado direito
-6. Actualizar badge para tema claro
-7. Actualizar botao outline para tema claro
-
-### Estrutura do Novo Layout
 ```text
-+--------------------------------------------------+
-|  [Fundo branco/off-white]                        |
-|                                                  |
-|  +-------------------+   +--------------------+  |
-|  | Badge             |   |                    |  |
-|  | Titulo (azul)     |   |    FOTOGRAFIA      |  |
-|  | Subtitulo (cinza) |   |    + formas        |  |
-|  | [CTA1] [CTA2]     |   |    decorativas     |  |
-|  +-------------------+   +--------------------+  |
-|                                                  |
-|           [Scroll indicator]                     |
-+--------------------------------------------------+
+Esquerda (0-35%)     Centro (35-60%)      Direita (60-100%)
++------------------+--------------------+-------------------+
+| Azul institucional| Transicao suave   | Claro / difuso    |
+| profundo (#001A3D)| azul-petroleo     | para acolher      |
+| com opacidade 3-5%| subtil            | a imagem          |
++------------------+--------------------+-------------------+
+```
+
+### Implementacao CSS
+Adicionar gradiente ao fundo da seccao:
+- `bg-gradient-to-r from-primary/[0.03] via-secondary/[0.02] to-transparent`
+- Criar uma sensacao de que o fundo "nasce" da imagem
+
+---
+
+## 2. Reducao de Blobs (de 5 para 2)
+
+### Problema Actual
+- 5 circulos decorativos dispersos (teal, coral, amarelo, verde, azul)
+- Parecem decoracao aleatoria, nao pertencem a cena
+
+### Solucao
+Manter apenas 2 blobs estrategicos:
+
+| Blob | Posicao | Cor | Opacidade | Proposito |
+|------|---------|-----|-----------|-----------|
+| Principal | Lado direito da imagem, nivel medio | Teal (secondary) | 8-10% | Energia/contexto |
+| Secundario | Entre as figuras (base) | Accent (verde) | 6-8% | Acompanhar movimento |
+
+### Posicionamento Correcto
+- Blob principal: acompanha o movimento do grupo (lado direito)
+- Blob secundario: encaixa na base, entre os corpos (nao atras das cabecas)
+- Ambos com blur maior para maior suavidade
+
+---
+
+## 3. Tratamento da Imagem com Sombra Difusa
+
+### Problema Actual
+- Imagem com `rounded-3xl` e `shadow-2xl`
+- Parece recortada e colada
+- Falta transicao suave
+
+### Solucao: Mascara de Sombra + Halo
+
+**Camada 1 - Sombra difusa atras:**
+- Div posicionado atras da imagem
+- `blur-3xl` ou `blur-[60px]`
+- Cor: `bg-primary/8` (azul muito subtil)
+- Tamanho: ligeiramente maior que a imagem
+
+**Camada 2 - Halo de cor:**
+- Gradiente radial muito subtil (5-8% opacidade)
+- Cor derivada da paleta (teal/azul)
+- Posicionado atras da imagem
+
+**Camada 3 - Fade na base:**
+- Gradiente na parte inferior da imagem
+- `from-transparent via-transparent to-background/40`
+- A base "desaparece" no fundo
+
+### Resultado Visual
+O cerebro deixa de ver um "recorte" e passa a ver a imagem integrada no ambiente.
+
+---
+
+## 4. Icone WiFi - Transformacao
+
+### Problema Actual
+- Icone literal (`<Wifi />` do Lucide)
+- Caixa visivel com `bg-secondary/20 p-4 rounded-2xl`
+- Parece infantil e distrai
+
+### Solucao A: WiFi Abstracto
+- Remover a caixa/fundo
+- Icone muito menor
+- Opacidade muito baixa (10-15%)
+- Parcialmente escondido atras da imagem (z-index negativo)
+- Posicao: canto superior direito da imagem
+
+### Solucao B: Substituir por Linhas Curvas (Recomendado)
+Desenhar SVG inline com 2-3 linhas curvas organicas:
+- Sugerem "ligacao" sem serem tecnologia literal
+- Cor: `stroke-secondary` com opacidade 8-12%
+- Posicao: emergem do lado direito da imagem
+- Nao interferem com a composicao principal
+
+### Implementacao
+```text
+<svg> com 2-3 paths curvos
+- stroke-secondary/10
+- stroke-width: 1-2px
+- Nenhum fill
+- Posicao absoluta, z-index baixo
 ```
 
 ---
 
-## Formas Decorativas (Detalhes)
+## 5. Card de Estatisticas
 
-Posicionamento (usando Tailwind + motion):
-- Circulo teal grande: `absolute top-20 right-[30%] w-32 h-32 bg-secondary/20 rounded-full`
-- Circulo coral: `absolute top-40 right-[45%] w-24 h-24 bg-orange-400/20 rounded-full`
-- Circulo amarelo: `absolute bottom-32 right-[25%] w-20 h-20 bg-yellow-400/20 rounded-full`
-- Circulo verde: `absolute bottom-20 right-[40%] w-16 h-16 bg-accent/15 rounded-full`
-- Icone WiFi: SVG inline em `text-secondary/30` posicionado sobre a imagem
+### Problema Actual
+- Card com `bg-card` e `border border-border/50`
+- Parece "colado" na imagem
 
----
-
-## Nao Sera Alterado
-
-- Logica de traducao (useLanguage)
-- Conteudo dos textos (t('hero.title'), etc.)
-- Outras seccoes do site (ActivitiesSection, DataSection, etc.)
-- Header e Footer
+### Solucao
+- Manter o card mas com sombra mais difusa
+- Adicionar halo subtil atras (`blur-xl` com cor da marca)
+- Reduzir tamanho ligeiramente
+- Garantir que "respira" com a composicao
 
 ---
 
-## Acessibilidade
+## 6. Ajuste de Brilho da Imagem (Opcional)
 
-- Titulo em azul #001A3D sobre branco: contraste 15.6:1 (excelente)
-- Subtitulo em cinza escuro: contraste minimo 4.5:1
-- Imagem com alt text descritivo mantido
+### Recomendacao
+Aplicar filtro CSS subtil para reduzir brilho:
+- `brightness(0.93)` ou `brightness(0.95)`
+- `contrast(1.02)` para manter definicao
+
+### Resultado
+- Expressao menos exagerada
+- Mais credivel e institucional
+- Melhor integracao com o fundo
+
+---
+
+## Estrutura Final do Layout
+
+```text
++----------------------------------------------------------------+
+| [Gradiente 3 camadas: azul profundo → transitorio → claro]     |
+|                                                                |
+|  +-----------------------+   +---------------------------+     |
+|  | Badge                 |   |                           |     |
+|  | Titulo (azul)         |   |  [Sombra difusa atras]    |     |
+|  | Subtitulo (cinza)     |   |  [Halo subtil]            |     |
+|  | [CTA1] [CTA2]         |   |       FOTOGRAFIA          |     |
+|  |                       |   |  [Linhas curvas organicas]|     |
+|  |                       |   |       [2 blobs integrados]|     |
+|  +-----------------------+   |  [Fade na base]           |     |
+|                              |       [Card stats]         |     |
+|                              +---------------------------+     |
+|                                                                |
+|                    [Scroll indicator]                          |
++----------------------------------------------------------------+
+```
+
+---
+
+## Ficheiro a Modificar
+
+### `src/components/sections/HeroSection.tsx`
+
+Alteracoes:
+1. Adicionar gradiente de fundo de 3 camadas
+2. Reduzir blobs de 5 para 2 (reposicionar)
+3. Adicionar camada de sombra difusa atras da imagem
+4. Adicionar halo de cor subtil
+5. Adicionar fade na base da imagem
+6. Substituir icone WiFi por linhas curvas organicas (SVG)
+7. Ajustar card de estatisticas
+8. Opcional: aplicar filtro de brilho na imagem
+
+---
+
+## O Que NAO Sera Alterado
+
+- Conteudo dos textos (traducoes)
+- CTAs e hierarquia
+- Fotografia original
+- Restantes seccoes do site (Header, Footer, etc.)
+- Estrutura de duas colunas
 
 ---
 
 ## Resultado Esperado
 
-Um hero leve e institucional que:
-- Usa fundo claro (branco/off-white)
-- Mostra a fotografia com destaque no lado direito
-- Apresenta texto em cores escuras com alta legibilidade
-- Integra formas decorativas subtis da paleta CIBERCIDADAOS
-- Mantem CTAs e copy existentes
-- Cria transicao suave para as seccoes seguintes
+Uma Hero Section onde:
+- O fundo parece nascer da fotografia
+- Os elementos pertencem a mesma cena
+- A imagem esta integrada, nao "recortada"
+- A composicao e mais credivel e institucional
+- O tom visual e mais sério, sem perder dinamismo
 
