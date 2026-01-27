@@ -14,6 +14,7 @@ import {
   Globe
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import aboutIllustration from '@/assets/about-illustration.jpg';
 
 // Animation variants
 const containerVariants = {
@@ -21,154 +22,128 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2
+      staggerChildren: 0.08,
+      delayChildren: 0.1
     }
   }
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as Easing }
-  }
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    scale: 1,
     transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] as Easing }
   }
 };
 
-// Values data
+// Values data - compact
 const values = [
-  {
-    icon: Users,
-    title_pt: 'Inclusão',
-    title_en: 'Inclusion',
-    description_pt: 'Defendemos uma transformação digital que não exclua ninguém, promovendo o acesso equitativo às tecnologias e à informação.',
-    description_en: 'We support a digital transformation that leaves no one behind, promoting equitable access to technology and information.'
-  },
-  {
-    icon: Shield,
-    title_pt: 'Integridade',
-    title_en: 'Integrity',
-    description_pt: 'Actuamos com transparência, ética e responsabilidade em todas as nossas iniciativas e parcerias.',
-    description_en: 'We act with transparency, ethics, and accountability in all our initiatives and partnerships.'
-  },
-  {
-    icon: Lightbulb,
-    title_pt: 'Inovação',
-    title_en: 'Innovation',
-    description_pt: 'Incentivamos soluções criativas e sustentáveis para responder aos desafios emergentes do ambiente digital.',
-    description_en: 'We encourage creative and sustainable solutions to address emerging challenges in the digital environment.'
-  },
-  {
-    icon: TrendingUp,
-    title_pt: 'Impacto',
-    title_en: 'Impact',
-    description_pt: 'Trabalhamos com foco em resultados concretos e mensuráveis que fortaleçam a cidadania digital e os Direitos Humanos.',
-    description_en: 'We focus on concrete and measurable results that strengthen digital citizenship and human rights.'
-  }
+  { icon: Users, title_pt: 'Inclusão', title_en: 'Inclusion', color: 'bg-secondary' },
+  { icon: Shield, title_pt: 'Integridade', title_en: 'Integrity', color: 'bg-primary' },
+  { icon: Lightbulb, title_pt: 'Inovação', title_en: 'Innovation', color: 'bg-accent' },
+  { icon: TrendingUp, title_pt: 'Impacto', title_en: 'Impact', color: 'bg-secondary' }
 ];
 
-// Areas of action data
+// Areas of action data - compact
 const areasOfAction = [
-  {
-    icon: GraduationCap,
-    title_pt: 'Educação para a cidadania digital',
-    title_en: 'Digital Citizenship Education',
-    description_pt: 'Desenvolvimento de programas de formação em competências digitais, promovendo o uso crítico, consciente e responsável das tecnologias.',
-    description_en: 'Development of training programmes in digital skills, promoting critical, informed, and responsible use of technology.'
-  },
-  {
-    icon: Lock,
-    title_pt: 'Liberdades e privacidade no ambiente digital',
-    title_en: 'Digital Freedoms and Privacy',
-    description_pt: 'Promoção do acesso à informação, da liberdade de expressão e da protecção da privacidade no espaço digital.',
-    description_en: 'Promotion of access to information, freedom of expression, and privacy protection in the digital space.'
-  },
-  {
-    icon: Globe,
-    title_pt: 'Inclusão digital e justiça social',
-    title_en: 'Digital Inclusion and Social Justice',
-    description_pt: 'Iniciativas que reduzem desigualdades no acesso e no uso das tecnologias, com atenção especial a grupos vulneráveis.',
-    description_en: 'Initiatives that reduce inequalities in access to and use of technology, with particular attention to vulnerable groups.'
-  },
-  {
-    icon: Scale,
-    title_pt: 'Transparência e ética tecnológica',
-    title_en: 'Transparency and Tech Ethics',
-    description_pt: 'Promoção da transparência e da responsabilização no uso de dados, algoritmos, inteligência artificial e tecnologias emergentes.',
-    description_en: 'Promotion of transparency and accountability in the use of data, algorithms, artificial intelligence, and emerging technologies.'
-  },
-  {
-    icon: BarChart3,
-    title_pt: 'Investigação, dados e análise',
-    title_en: 'Research, Data and Analysis',
-    description_pt: 'Produção e divulgação de estudos e análises sobre cidadania digital, democracia digital e Direitos Humanos em Moçambique.',
-    description_en: 'Production and dissemination of studies and analyses on digital citizenship, digital democracy, and human rights in Mozambique.'
-  }
+  { icon: GraduationCap, title_pt: 'Educação Digital', title_en: 'Digital Education' },
+  { icon: Lock, title_pt: 'Privacidade', title_en: 'Privacy' },
+  { icon: Globe, title_pt: 'Inclusão Digital', title_en: 'Digital Inclusion' },
+  { icon: Scale, title_pt: 'Ética Tecnológica', title_en: 'Tech Ethics' },
+  { icon: BarChart3, title_pt: 'Investigação', title_en: 'Research' }
 ];
 
 export function AboutSection() {
   const { language, t } = useLanguage();
 
   return (
-    <section id="about" className="section-padding bg-muted/30 relative overflow-hidden">
+    <section id="about" className="section-padding bg-gradient-to-b from-primary/5 to-background relative overflow-hidden">
       {/* Decorative circles */}
-      <div className="absolute top-20 left-10 w-64 h-64 bg-secondary/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 right-10 w-80 h-80 bg-accent/10 rounded-full blur-3xl" />
+      <div className="absolute top-20 right-10 w-48 h-48 bg-secondary/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-40 left-10 w-64 h-64 bg-accent/10 rounded-full blur-3xl" />
       
       <div className="container-custom relative z-10">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif text-foreground mb-6">
-            {t('about.title')}
-          </h2>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-            {language === 'pt' 
-              ? 'A CIBERCIDADÃOS é uma organização moçambicana da sociedade civil que trabalha na promoção da cidadania digital, dos Direitos Humanos no ambiente digital e do uso ético e responsável das tecnologias. Actuamos a nível nacional, com foco na inclusão, na educação cívica digital e no fortalecimento da participação cidadã na sociedade da informação.'
-              : 'CIBERCIDADÃOS is a Mozambican civil society organisation working to promote digital citizenship, human rights in the digital environment, and the ethical and responsible use of technology. We operate nationwide, focusing on inclusion, digital civic education, and strengthening citizen participation in the information society.'
-            }
-          </p>
-        </motion.div>
+        {/* Hero Section with Image */}
+        <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+          {/* Text Content */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif text-foreground mb-6">
+              {t('about.title')}
+            </h2>
+            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+              {language === 'pt' 
+                ? 'Somos uma organização moçambicana da sociedade civil dedicada à promoção da cidadania digital e dos Direitos Humanos no ambiente digital.'
+                : 'We are a Mozambican civil society organisation dedicated to promoting digital citizenship and human rights in the digital environment.'
+              }
+            </p>
+            <ul className="space-y-3 text-muted-foreground">
+              <li className="flex items-start gap-3">
+                <div className="w-2 h-2 rounded-full bg-secondary mt-2 shrink-0" />
+                <span>{language === 'pt' ? 'Actuação a nível nacional' : 'Nationwide operation'}</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <div className="w-2 h-2 rounded-full bg-accent mt-2 shrink-0" />
+                <span>{language === 'pt' ? 'Foco em inclusão e educação cívica digital' : 'Focus on inclusion and digital civic education'}</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <div className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0" />
+                <span>{language === 'pt' ? 'Uso ético e responsável das tecnologias' : 'Ethical and responsible use of technology'}</span>
+              </li>
+            </ul>
+          </motion.div>
 
-        {/* Mission & Vision */}
+          {/* Image */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="relative"
+          >
+            <div className="relative rounded-2xl overflow-hidden shadow-xl">
+              <img 
+                src={aboutIllustration} 
+                alt={language === 'pt' ? 'Jovens em formação digital' : 'Youth in digital training'}
+                className="w-full h-auto object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent" />
+            </div>
+            {/* Decorative elements */}
+            <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-secondary/20 rounded-full blur-xl" />
+            <div className="absolute -top-4 -right-4 w-32 h-32 bg-accent/20 rounded-full blur-xl" />
+          </motion.div>
+        </div>
+
+        {/* Mission & Vision - Colored Cards */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-50px' }}
-          className="grid md:grid-cols-2 gap-8 mb-20"
+          className="grid md:grid-cols-2 gap-6 mb-12"
         >
           {/* Mission */}
-          <motion.div variants={cardVariants}>
-            <Card className="h-full bg-card border-border/50 hover:shadow-lg transition-all duration-300 group">
-              <CardContent className="p-8">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-14 h-14 rounded-xl bg-secondary/10 flex items-center justify-center group-hover:bg-secondary/20 transition-colors">
-                    <Target className="w-7 h-7 text-secondary" />
+          <motion.div variants={itemVariants}>
+            <Card className="h-full bg-primary text-white border-0 shadow-lg hover:shadow-xl transition-shadow">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
+                    <Target className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="text-2xl font-serif text-foreground">
+                  <h3 className="text-xl font-serif font-semibold">
                     {t('about.mission')}
                   </h3>
                 </div>
-                <p className="text-muted-foreground leading-relaxed">
+                <p className="text-white/90 leading-relaxed text-sm">
                   {language === 'pt'
-                    ? 'Promover os Direitos Humanos no ambiente digital, capacitando cidadãos com conhecimentos, competências e consciência crítica para uma participação segura, ética, informada e responsável na sociedade da informação.'
-                    : 'To promote human rights in the digital environment by empowering citizens with knowledge, skills, and critical awareness for safe, ethical, informed, and responsible participation in the information society.'
+                    ? 'Promover os Direitos Humanos no ambiente digital, capacitando cidadãos para uma participação segura, ética e responsável na sociedade da informação.'
+                    : 'To promote human rights in the digital environment, empowering citizens for safe, ethical, and responsible participation in the information society.'
                   }
                 </p>
               </CardContent>
@@ -176,21 +151,21 @@ export function AboutSection() {
           </motion.div>
 
           {/* Vision */}
-          <motion.div variants={cardVariants}>
-            <Card className="h-full bg-card border-border/50 hover:shadow-lg transition-all duration-300 group">
-              <CardContent className="p-8">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
-                    <Eye className="w-7 h-7 text-accent" />
+          <motion.div variants={itemVariants}>
+            <Card className="h-full bg-secondary text-white border-0 shadow-lg hover:shadow-xl transition-shadow">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
+                    <Eye className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="text-2xl font-serif text-foreground">
+                  <h3 className="text-xl font-serif font-semibold">
                     {t('about.vision')}
                   </h3>
                 </div>
-                <p className="text-muted-foreground leading-relaxed">
+                <p className="text-white/90 leading-relaxed text-sm">
                   {language === 'pt'
-                    ? 'Um Moçambique onde todos os cidadãos possam exercer plenamente a sua cidadania no ambiente digital, beneficiando das oportunidades tecnológicas de forma livre, segura, ética, inclusiva e socialmente justa.'
-                    : 'A Mozambique where all citizens can fully exercise their digital citizenship, benefiting from technological opportunities in a free, safe, ethical, inclusive, and socially just manner.'
+                    ? 'Um Moçambique onde todos os cidadãos exercem plenamente a sua cidadania digital, beneficiando das oportunidades tecnológicas de forma livre, segura e inclusiva.'
+                    : 'A Mozambique where all citizens fully exercise their digital citizenship, benefiting from technological opportunities in a free, safe, and inclusive manner.'
                   }
                 </p>
               </CardContent>
@@ -198,91 +173,73 @@ export function AboutSection() {
           </motion.div>
         </motion.div>
 
-        {/* Values */}
+        {/* Values - Compact Horizontal */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.6 }}
-          className="mb-20"
+          transition={{ duration: 0.5 }}
+          className="mb-12"
         >
-          <h3 className="text-2xl md:text-3xl font-serif text-foreground text-center mb-12">
+          <h3 className="text-xl md:text-2xl font-serif text-foreground text-center mb-8">
             {t('about.values')}
           </h3>
           
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-50px' }}
-            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
-          >
+          <div className="flex flex-wrap justify-center gap-4">
             {values.map((value, index) => {
               const Icon = value.icon;
               return (
-                <motion.div key={index} variants={itemVariants}>
-                  <Card className="h-full bg-card border-border/50 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group text-center">
-                    <CardContent className="p-6">
-                      <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-secondary/20 to-accent/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <Icon className="w-8 h-8 text-secondary" />
-                      </div>
-                      <h4 className="text-lg font-semibold text-foreground mb-3">
-                        {language === 'pt' ? value.title_pt : value.title_en}
-                      </h4>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
-                        {language === 'pt' ? value.description_pt : value.description_en}
-                      </p>
-                    </CardContent>
-                  </Card>
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                  className="flex items-center gap-3 bg-card rounded-full px-5 py-3 border border-border/50 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all"
+                >
+                  <div className={`w-10 h-10 rounded-full ${value.color} flex items-center justify-center`}>
+                    <Icon className="w-5 h-5 text-white" />
+                  </div>
+                  <span className="font-medium text-foreground">
+                    {language === 'pt' ? value.title_pt : value.title_en}
+                  </span>
                 </motion.div>
               );
             })}
-          </motion.div>
+          </div>
         </motion.div>
 
-        {/* Areas of Action */}
+        {/* Areas of Action - Compact Grid */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
         >
-          <h3 className="text-2xl md:text-3xl font-serif text-foreground text-center mb-12">
+          <h3 className="text-xl md:text-2xl font-serif text-foreground text-center mb-8">
             {t('about.areas')}
           </h3>
           
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-50px' }}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
-          >
+          <div className="flex flex-wrap justify-center gap-3">
             {areasOfAction.map((area, index) => {
               const Icon = area.icon;
               return (
-                <motion.div key={index} variants={itemVariants}>
-                  <Card className="h-full bg-card border-border/50 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
-                    <CardContent className="p-6">
-                      <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 shrink-0 rounded-xl bg-gradient-to-br from-accent/20 to-secondary/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                          <Icon className="w-6 h-6 text-accent" />
-                        </div>
-                        <div>
-                          <h4 className="text-lg font-semibold text-foreground mb-2">
-                            {language === 'pt' ? area.title_pt : area.title_en}
-                          </h4>
-                          <p className="text-sm text-muted-foreground leading-relaxed">
-                            {language === 'pt' ? area.description_pt : area.description_en}
-                          </p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: index * 0.08 }}
+                  className="flex items-center gap-2 bg-card rounded-lg px-4 py-2.5 border border-border/50 shadow-sm hover:shadow-md hover:border-accent/50 transition-all"
+                >
+                  <Icon className="w-5 h-5 text-accent" />
+                  <span className="text-sm font-medium text-foreground">
+                    {language === 'pt' ? area.title_pt : area.title_en}
+                  </span>
                 </motion.div>
               );
             })}
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>

@@ -51,11 +51,12 @@ export function DataSection() {
   const { language, t } = useLanguage();
 
   return (
-    <section className="section-padding bg-muted/30 relative overflow-hidden">
-      {/* Decorative top border */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-accent" />
+    <section className="section-padding bg-primary relative overflow-hidden">
+      {/* Decorative elements */}
+      <div className="absolute top-20 left-10 w-64 h-64 bg-secondary/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 right-10 w-80 h-80 bg-accent/10 rounded-full blur-3xl" />
 
-      <div className="container-custom relative">
+      <div className="container-custom relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -64,10 +65,10 @@ export function DataSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground mb-4">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-white mb-4">
             {t('data.title')}
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <p className="text-white/80 text-lg max-w-2xl mx-auto">
             {t('data.subtitle')}
           </p>
         </motion.div>
@@ -86,9 +87,9 @@ export function DataSection() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="relative group"
               >
-                <div className="bg-card rounded-2xl p-6 md:p-8 text-center h-full border border-border/50 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 md:p-8 text-center h-full border border-white/20 shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:bg-white/15">
                   {/* Icon */}
-                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-accent mb-4">
+                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-secondary mb-4">
                     <Icon className="h-7 w-7 text-white" />
                   </div>
 
@@ -97,18 +98,18 @@ export function DataSection() {
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
-                    className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-2"
+                    className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2"
                   >
                     <AnimatedCounter value={indicator.value} />
                   </motion.div>
 
                   {/* Label */}
-                  <h3 className="text-foreground font-medium text-sm md:text-base mb-1">
+                  <h3 className="text-white font-medium text-sm md:text-base mb-1">
                     {language === 'pt' ? indicator.label_pt : indicator.label_en}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-muted-foreground text-xs md:text-sm">
+                  <p className="text-white/70 text-xs md:text-sm">
                     {language === 'pt' ? indicator.description_pt : indicator.description_en}
                   </p>
                 </div>

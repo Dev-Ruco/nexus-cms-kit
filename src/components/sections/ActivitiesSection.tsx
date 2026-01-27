@@ -28,8 +28,11 @@ export function ActivitiesSection() {
   const featuredActivities = activities.slice(0, 4);
 
   return (
-    <section className="section-padding bg-background">
-      <div className="container-custom">
+    <section className="section-padding bg-secondary/5 relative overflow-hidden">
+      {/* Decorative top border */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-secondary via-accent to-secondary" />
+      
+      <div className="container-custom relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
