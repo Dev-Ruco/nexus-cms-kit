@@ -5,8 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { AuthButton } from '@/components/layout/AuthButton';
 import logo from '@/assets/Logotipo_oficial.png';
-
 const navItems = [
   { key: 'nav.home', href: '/' },
   { 
@@ -141,14 +141,10 @@ export function Header() {
 
           {/* Right Actions */}
           <div className="flex items-center gap-2">
-            {/* CTA Button - Desktop */}
-            <Button
-              asChild
-              className="hidden lg:inline-flex btn-gradient text-sm px-5 py-2 h-auto rounded-full"
-            >
-              <Link to="/membro">{t('nav.become_member')}</Link>
-            </Button>
-
+            {/* Auth Button - Desktop */}
+            <div className="hidden lg:block">
+              <AuthButton variant="desktop" />
+            </div>
             {/* Language Toggle */}
             <Button
               variant="ghost"
@@ -244,16 +240,14 @@ export function Header() {
                   )}
                 </motion.div>
               ))}
-              {/* CTA Button - Mobile */}
+              {/* Auth Button - Mobile */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: navItems.length * 0.05 }}
                 className="pt-4 mt-2 border-t border-border"
               >
-                <Button asChild className="w-full btn-gradient text-base py-3 h-auto rounded-full">
-                  <Link to="/membro">{t('nav.become_member')}</Link>
-                </Button>
+                <AuthButton variant="mobile" onItemClick={() => setIsOpen(false)} />
               </motion.div>
             </nav>
           </motion.div>

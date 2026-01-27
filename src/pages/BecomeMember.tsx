@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { CheckCircle, Star, Users, Award, Mail } from 'lucide-react';
+import { CheckCircle, Star, Users, Award, Mail, Eye, EyeOff } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { PageHero } from '@/components/layout/PageHero';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { supabase } from '@/integrations/supabase/client';
 import { provinces } from '@/data/mockData';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,7 +15,7 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 
 const benefits = [
   { icon: Star, key: 'benefit1' },
@@ -22,41 +24,147 @@ const benefits = [
   { icon: Award, key: 'benefit4' },
 ];
 
+interface FormData {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  phone: string;
+  province: string;
+  age: string;
+  motivation: string;
+  howFound: string;
+}
+
 const BecomeMember = () => {
   const { language, t } = useLanguage();
-  const { toast } = useToast();
+  const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [newsletterAccepted, setNewsletterAccepted] = useState(false);
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    phone: '',
+    province: '',
+    age: '',
+    motivation: '',
+    howFound: '',
+  });
+
+  const handleInputChange = (field: keyof FormData, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     if (!termsAccepted) {
-      toast({
-        title: language === 'pt' ? 'Erro' : 'Error',
-        description: language === 'pt' 
+      toast.error(
+        language === 'pt' 
           ? 'Por favor, aceite os termos e condições.' 
-          : 'Please accept the terms and conditions.',
-        variant: 'destructive'
-      });
+          : 'Please accept the terms and conditions.'
+      );
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      toast.error(
+        language === 'pt' 
+          ? 'A password deve ter pelo menos 6 caracteres.' 
+          : 'Password must be at least 6 characters.'
+      );
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      toast.error(
+        language === 'pt' 
+          ? 'As passwords não coincidem.' 
+          : 'Passwords do not match.'
+      );
       return;
     }
 
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    toast({
-      title: t('member.form.success'),
-      description: language === 'pt' 
-        ? 'Entraremos em contacto em breve para confirmar a sua adesão.' 
-        : 'We will contact you soon to confirm your membership.',
-    });
+
+    try {
+      // 1. Create Supabase Auth account
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/member/portal`,
+          data: {
+            full_name: formData.name,
+          },
+        },
+      });
+
+      if (authError) {
+        if (authError.message.includes('User already registered')) {
+          toast.error(
+            language === 'pt' 
+              ? 'Este email já está registado. Tente fazer login.' 
+              : 'This email is already registered. Try logging in.'
+          );
+        } else {
+          toast.error(authError.message);
+        }
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (!authData.user) {
+        toast.error(language === 'pt' ? 'Erro ao criar conta.' : 'Error creating account.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      // 2. Create member record (RLS policy allows insert with status='pending')
+      const { error: memberError } = await supabase.from('members').insert({
+        user_id: authData.user.id,
+        full_name: formData.name,
+        email: formData.email,
+        phone: formData.phone || null,
+        province: formData.province || null,
+        age: formData.age ? parseInt(formData.age) : null,
+        motivation: formData.motivation || null,
+        how_found: formData.howFound || null,
+        status: 'pending',
+      });
+
+      if (memberError) {
+        console.error('Error creating member record:', memberError);
+        // Don't block the user - auth account was created successfully
+      }
+
+      setIsSubmitted(true);
+      toast.success(
+        language === 'pt' 
+          ? 'Conta criada com sucesso!' 
+          : 'Account created successfully!'
+      );
+
+      // 3. Redirect to member portal after a short delay
+      setTimeout(() => {
+        navigate('/member/portal');
+      }, 2000);
+
+    } catch (error) {
+      console.error('Registration error:', error);
+      toast.error(
+        language === 'pt' 
+          ? 'Ocorreu um erro. Tente novamente.' 
+          : 'An error occurred. Please try again.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -133,13 +241,10 @@ const BecomeMember = () => {
                       </h3>
                       <p className="text-muted-foreground mb-6">
                         {language === 'pt' 
-                          ? 'A sua candidatura foi recebida com sucesso. Entraremos em contacto para confirmar a sua adesão.' 
-                          : 'Your application has been received successfully. We will contact you to confirm your membership.'
+                          ? 'A sua conta foi criada. A redirecionar para o portal do membro...' 
+                          : 'Your account has been created. Redirecting to member portal...'
                         }
                       </p>
-                      <Button onClick={() => setIsSubmitted(false)} variant="outline">
-                        {language === 'pt' ? 'Submeter outra candidatura' : 'Submit another application'}
-                      </Button>
                     </div>
                   ) : (
                     <form onSubmit={handleSubmit} className="space-y-8">
@@ -154,22 +259,80 @@ const BecomeMember = () => {
                           <div className="grid sm:grid-cols-2 gap-4">
                             <div className="space-y-2">
                               <Label htmlFor="name">{t('member.form.name')} *</Label>
-                              <Input id="name" required />
+                              <Input 
+                                id="name" 
+                                required 
+                                value={formData.name}
+                                onChange={(e) => handleInputChange('name', e.target.value)}
+                              />
                             </div>
                             <div className="space-y-2">
                               <Label htmlFor="email">{t('member.form.email')} *</Label>
-                              <Input id="email" type="email" required />
+                              <Input 
+                                id="email" 
+                                type="email" 
+                                required 
+                                value={formData.email}
+                                onChange={(e) => handleInputChange('email', e.target.value)}
+                              />
+                            </div>
+                          </div>
+
+                          {/* Password Fields */}
+                          <div className="grid sm:grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                              <Label htmlFor="password">{t('auth.password')} *</Label>
+                              <div className="relative">
+                                <Input 
+                                  id="password" 
+                                  type={showPassword ? 'text' : 'password'} 
+                                  required 
+                                  minLength={6}
+                                  placeholder="••••••••"
+                                  value={formData.password}
+                                  onChange={(e) => handleInputChange('password', e.target.value)}
+                                />
+                                <Button
+                                  type="button"
+                                  variant="ghost"
+                                  size="icon"
+                                  className="absolute right-0 top-0 h-full"
+                                  onClick={() => setShowPassword(!showPassword)}
+                                >
+                                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                                </Button>
+                              </div>
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="confirmPassword">{t('auth.confirm_password')} *</Label>
+                              <Input 
+                                id="confirmPassword" 
+                                type={showPassword ? 'text' : 'password'} 
+                                required 
+                                minLength={6}
+                                placeholder="••••••••"
+                                value={formData.confirmPassword}
+                                onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                              />
                             </div>
                           </div>
 
                           <div className="grid sm:grid-cols-3 gap-4">
                             <div className="space-y-2">
                               <Label htmlFor="phone">{t('member.form.phone')}</Label>
-                              <Input id="phone" type="tel" />
+                              <Input 
+                                id="phone" 
+                                type="tel" 
+                                value={formData.phone}
+                                onChange={(e) => handleInputChange('phone', e.target.value)}
+                              />
                             </div>
                             <div className="space-y-2">
                               <Label htmlFor="province">{t('member.form.province')}</Label>
-                              <Select>
+                              <Select 
+                                value={formData.province}
+                                onValueChange={(value) => handleInputChange('province', value)}
+                              >
                                 <SelectTrigger>
                                   <SelectValue placeholder={t('common.select')} />
                                 </SelectTrigger>
@@ -184,7 +347,14 @@ const BecomeMember = () => {
                             </div>
                             <div className="space-y-2">
                               <Label htmlFor="age">{t('member.form.age')}</Label>
-                              <Input id="age" type="number" min="16" max="100" />
+                              <Input 
+                                id="age" 
+                                type="number" 
+                                min="16" 
+                                max="100" 
+                                value={formData.age}
+                                onChange={(e) => handleInputChange('age', e.target.value)}
+                              />
                             </div>
                           </div>
                         </div>
@@ -200,11 +370,19 @@ const BecomeMember = () => {
                         <div className="space-y-4">
                           <div className="space-y-2">
                             <Label htmlFor="why">{t('member.form.why')}</Label>
-                            <Textarea id="why" rows={3} />
+                            <Textarea 
+                              id="why" 
+                              rows={3} 
+                              value={formData.motivation}
+                              onChange={(e) => handleInputChange('motivation', e.target.value)}
+                            />
                           </div>
                           <div className="space-y-2">
                             <Label htmlFor="how">{t('member.form.how')}</Label>
-                            <Select>
+                            <Select
+                              value={formData.howFound}
+                              onValueChange={(value) => handleInputChange('howFound', value)}
+                            >
                               <SelectTrigger>
                                 <SelectValue placeholder={t('common.select')} />
                               </SelectTrigger>
@@ -268,6 +446,13 @@ const BecomeMember = () => {
                           t('member.form.submit')
                         )}
                       </Button>
+
+                      <p className="text-center text-sm text-muted-foreground">
+                        {language === 'pt' ? 'Já tem conta?' : 'Already have an account?'}{' '}
+                        <a href="/auth/login" className="text-secondary hover:underline font-medium">
+                          {language === 'pt' ? 'Entrar' : 'Sign in'}
+                        </a>
+                      </p>
                     </form>
                   )}
                 </CardContent>
