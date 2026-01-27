@@ -1,187 +1,446 @@
 
-# Plano: Actualizacao do Logotipo, Cores e Seccao Sobre Nos
 
-## Resumo das Alteracoes Solicitadas
+# Plano: Reestruturacao Completa do Site CIBERCIDADAOS
 
-| Alteracao | Ficheiro(s) | Descricao |
-|-----------|-------------|-----------|
-| Novo logotipo no Header | Header.tsx | Substituir logo actual pelo novo (sem fundo), aumentar tamanho |
-| Logotipo branco no Footer | Footer.tsx | Adicionar versao branca do logo para harmonia com fundo escuro |
-| Remover seccao "Valores" | AboutSection.tsx | Eliminar completamente a seccao "Os Nossos Valores" |
-| Adicionar card "Objectivos" | AboutSection.tsx | Criar 3 cards horizontais: Missao, Visao, Objectivos |
-| Trocar hierarquia de cores | index.css | Teal passa a secundaria, Verde passa a terciaria (accent) |
+## Resumo Executivo
+
+Este plano transforma o site de uma pagina unica (homepage) num website multi-paginas completo e funcional, com navegacao por submenus, formularios interactivos e todas as paginas clicaveis e preparadas para receber conteudo.
 
 ---
 
-## 1. Substituicao do Logotipo
+## 1. Alteracoes na Seccao "Sobre Nos" (Homepage)
 
-### Header
-- Copiar novo logotipo `Logotipo_oficial.png` para `src/assets/`
-- Substituir import do `logo.png` pelo novo ficheiro
-- Aumentar tamanho de `h-10 md:h-12` para `h-14 md:h-16` para maior visibilidade
-- O novo logo ja nao tem fundo (transparente)
+### Problema Actual
+O texto da esquerda nao preenche a altura da imagem ao lado, criando desequilibrio visual.
 
-### Footer
-- Necessitamos de uma versao branca do logo para contrastar com o fundo azul escuro
-- Aplicar filtro CSS `brightness(0) invert(1)` para converter para branco
-- Ou criar versao branca do logo
+### Solucao
+Reformular o texto para equilibrar com a altura da fotografia:
 
----
+**Novo Texto (PT):**
+> Somos uma organizacao mocambicana da sociedade civil dedicada a promocao da cidadania digital e dos Direitos Humanos no ambiente digital.
+>
+> Trabalhamos em todo o territorio nacional para capacitar cidadaos, especialmente jovens, a navegar de forma segura, etica e responsavel no mundo digital.
+>
+> A nossa actuacao assenta em pilares fundamentais: educacao civica digital, proteccao da privacidade online, combate a desinformacao e promocao da inclusao tecnologica.
 
-## 2. Reorganizacao da Seccao "Sobre Nos"
-
-### Remover
-- Eliminar completamente a seccao "Valores" (linhas 176-210 do AboutSection.tsx)
-- Remover array `values` e respectivos icones nao utilizados
-
-### Adicionar Card "Objectivos"
-O conteudo sera (conforme plano original aprovado):
-
-**Portugues:**
-Promover a literacia digital, fortalecer a participacao civica online, e defender os direitos digitais de todos os mocambicanos.
-
-**Ingles:**
-To promote digital literacy, strengthen online civic participation, and defend the digital rights of all Mozambicans.
-
-### Layout Final
-```text
-+------------------+------------------+------------------+
-|     MISSAO       |      VISAO       |    OBJECTIVOS    |
-|   [Target icon]  |    [Eye icon]    |  [Compass icon]  |
-|   Fundo Azul     |   Fundo Teal     |   Fundo Verde    |
-+------------------+------------------+------------------+
+**Adicionar botao discreto:**
+```
+[Saiba Mais] -> Link para /sobre/cibercidadaos
 ```
 
-Grid: `grid md:grid-cols-3 gap-6`
+**Remover da homepage:**
+- Cards de Missao, Visao, Objectivos
+- Areas de Actuacao
+
+Estes elementos passam para a pagina dedicada "Sobre Cibercidadaos".
 
 ---
 
-## 3. Reordenacao das Cores
+## 2. Reestruturacao do Menu Header
+
+### Estrutura Actual
+```
+Inicio | Sobre Nos | Actividades | Dados | Publicacoes | Contacto
+```
+
+### Nova Estrutura com Submenus
+```
+Inicio | Sobre Nos (dropdown) | Actividades | Dados | Publicacoes | Contacto
+           |
+           +-- Sobre Cibercidadaos
+           +-- Estrutura de Governanca
+```
+
+### Implementacao Tecnica
+Utilizar componente `NavigationMenu` do Radix UI (ja instalado no projecto) para criar dropdowns elegantes no desktop e accordions no mobile.
+
+---
+
+## 3. Simplificacao da Seccao "Nossa Equipa" (Homepage)
 
 ### Situacao Actual
-```css
---secondary: 180 100% 32%;  /* Teal #00A3A4 */
---accent: 168 100% 41%;     /* Verde #00D1B2 */
-```
+Mostra 8 membros da equipa na homepage.
 
-### Nova Organizacao
-Manter os nomes das variaveis mas ajustar uso semantico:
-- **Secondary (Teal)**: Cor principal de destaque - continua como esta
-- **Accent (Verde)**: Passa a ser usada apenas como terceira opcao
-
-O pedido do utilizador e para dar mais proeminencia ao azul teal sobre o verde. Actualmente:
-- Secondary (Teal) ja e usado como cor principal de destaque
-- Accent (Verde) e usado em elementos terciarios
-
-Na pratica, a estrutura actual ja segue esta logica. O que podemos fazer e:
-1. Ajustar o card de "Visao" para usar secundario (teal)
-2. Novo card "Objectivos" pode usar accent (verde) como terceira cor
+### Nova Abordagem
+- Mostrar apenas **3 membros principais** (Director Executivo, Director de Programas, Coordenadora de Comunicacao)
+- Adicionar botao **"Conheca toda a equipa"** que leva a `/sobre/governanca`
 
 ---
 
-## Ficheiros a Modificar
+## 4. Novas Paginas a Criar
 
-### 1. `src/assets/Logotipo_oficial.png` (NOVO)
-- Copiar ficheiro do user-uploads para src/assets
+### 4.1 Pagina "Sobre Cibercidadaos" (`/sobre/cibercidadaos`)
 
-### 2. `src/components/layout/Header.tsx`
-
-**Alteracoes:**
-```tsx
-// Linha 8: Alterar import
-import logo from '@/assets/Logotipo_oficial.png';
-
-// Linha 55-59: Aumentar tamanho do logo
-<img
-  src={logo}
-  alt="CIBERCIDADAOS"
-  className="h-14 md:h-16 w-auto"  // Era h-10 md:h-12
-/>
+**Estrutura:**
 ```
-
-### 3. `src/components/layout/Footer.tsx`
-
-**Alteracoes:**
-```tsx
-// Linha 6: Alterar import
-import logo from '@/assets/Logotipo_oficial.png';
-
-// Linha 34-36: Aplicar filtro para versao branca
-<img 
-  src={logo} 
-  alt="CIBERCIDADAOS" 
-  className="h-14 w-auto brightness-0 invert"  // Filtro para branco
-/>
-```
-
-### 4. `src/components/sections/AboutSection.tsx`
-
-**Alteracoes principais:**
-1. Remover import dos icones de valores nao usados (Users, Shield, Lightbulb, TrendingUp)
-2. Adicionar import do icone Compass para Objectivos
-3. Remover array `values`
-4. Remover toda a seccao de renderizacao dos valores (linhas 176-210)
-5. Alterar grid de Missao/Visao de 2 para 3 colunas
-6. Adicionar novo card "Objectivos"
-
-**Estrutura do novo grid:**
-```tsx
-<motion.div className="grid md:grid-cols-3 gap-6 mb-12">
-  {/* Missao - bg-primary */}
-  {/* Visao - bg-secondary */}
-  {/* Objectivos - bg-accent (novo) */}
-</motion.div>
-```
-
-### 5. `src/contexts/LanguageContext.tsx`
-
-**Adicionar traducao:**
-```tsx
-// PT
-'about.objectives': 'Objectivos',
-
-// EN
-'about.objectives': 'Objectives',
-```
-
----
-
-## Estrutura Visual Final da Seccao Sobre Nos
-
-```text
 +------------------------------------------------------------------+
-|                    SOBRE NOS (Gradiente azul suave)               |
-|   +----------------------+    +-----------------------------+     |
-|   |  Texto condensado    |    |  [IMAGEM ILUSTRATIVA]       |     |
-|   |  Quem Somos          |    |                             |     |
-|   +----------------------+    +-----------------------------+     |
+|                    HERO SECTION (com foto)                       |
+|   [Imagem institucional + Titulo "Sobre a CIBERCIDADAOS"]        |
++------------------------------------------------------------------+
 |                                                                   |
+|   QUEM SOMOS (texto expandido)                                   |
+|   Historia e contexto da organizacao                             |
+|                                                                   |
++------------------------------------------------------------------+
 |   +----------------+  +----------------+  +----------------+      |
 |   |    MISSAO      |  |     VISAO      |  |  OBJECTIVOS   |      |
-|   |  [Target]      |  |    [Eye]       |  |  [Compass]    |      |
-|   |  Fundo Azul    |  |  Fundo Teal    |  | Fundo Verde   |      |
+|   |  (detalhado)   |  |  (detalhado)   |  |  (detalhado)  |      |
 |   +----------------+  +----------------+  +----------------+      |
++------------------------------------------------------------------+
 |                                                                   |
-|   [Area 1] [Area 2] [Area 3] [Area 4] [Area 5]                   |
+|   AREAS DE ACTUACAO (cada area com descricao completa)           |
+|   - Educacao Digital: explicacao detalhada                       |
+|   - Privacidade: explicacao detalhada                            |
+|   - Inclusao Digital: explicacao detalhada                       |
+|   - Etica Tecnologica: explicacao detalhada                      |
+|   - Investigacao: explicacao detalhada                           |
+|                                                                   |
++------------------------------------------------------------------+
+|                                                                   |
+|   MODELOS DE ACTUACAO                                            |
+|   - Formacoes presenciais                                        |
+|   - Campanhas de sensibilizacao                                  |
+|   - Parcerias estrategicas                                       |
+|   - Investigacao e publicacoes                                   |
+|                                                                   |
++------------------------------------------------------------------+
+```
+
+### 4.2 Pagina "Estrutura de Governanca" (`/sobre/governanca`)
+
+**Estrutura:**
+```
++------------------------------------------------------------------+
+|                    HERO SECTION                                   |
+|   [Titulo "Estrutura de Governanca"]                             |
++------------------------------------------------------------------+
+|                                                                   |
+|   ORGANIGRAMA (diagrama visual opcional)                         |
+|                                                                   |
++------------------------------------------------------------------+
+|                                                                   |
+|   EQUIPA TECNICA (todos os 8 membros)                            |
+|   Grid completo com fotos, funcoes e redes sociais               |
+|                                                                   |
++------------------------------------------------------------------+
+|                                                                   |
+|   CONSELHO DE ADMINISTRACAO (placeholder para futuro)            |
+|                                                                   |
++------------------------------------------------------------------+
+```
+
+### 4.3 Pagina de Actividades (`/actividades`)
+
+**Estrutura:**
+```
++------------------------------------------------------------------+
+|   HERO SECTION - "Nossas Actividades"                            |
++------------------------------------------------------------------+
+|   FILTROS: [Todas] [Workshop] [Campanha] [Parceria] [Lancamento] |
++------------------------------------------------------------------+
+|                                                                   |
+|   GRID DE ACTIVIDADES (todas as actividades)                     |
+|   Cards clicaveis que abrem pagina de detalhe                    |
+|                                                                   |
++------------------------------------------------------------------+
+|   PAGINACAO                                                      |
++------------------------------------------------------------------+
+```
+
+### 4.4 Pagina de Detalhe de Actividade (`/actividades/:id`)
+
+**Estrutura:**
+```
++------------------------------------------------------------------+
+|   HERO com imagem de fundo da actividade                         |
++------------------------------------------------------------------+
+|   BREADCRUMB: Inicio > Actividades > [Nome da Actividade]        |
++------------------------------------------------------------------+
+|   [Categoria] [Data]                                             |
+|                                                                   |
+|   TITULO DA ACTIVIDADE                                           |
+|                                                                   |
+|   CONTEUDO COMPLETO (content_pt / content_en)                    |
+|                                                                   |
++------------------------------------------------------------------+
+|   ACTIVIDADES RELACIONADAS                                       |
++------------------------------------------------------------------+
+```
+
+### 4.5 Pagina de Dados (`/dados`)
+
+**Estrutura:**
+```
++------------------------------------------------------------------+
+|   HERO SECTION - "Mocambique Digital em Dados"                   |
++------------------------------------------------------------------+
+|                                                                   |
+|   INDICADORES NACIONAIS (cards interactivos)                     |
+|                                                                   |
++------------------------------------------------------------------+
+|                                                                   |
+|   MAPA INTERACTIVO DE MOCAMBIQUE                                 |
+|   (mostra dados por provincia ao clicar)                         |
+|                                                                   |
++------------------------------------------------------------------+
+|                                                                   |
+|   GRAFICOS E VISUALIZACOES                                       |
+|   (usando Recharts - ja instalado)                               |
+|                                                                   |
++------------------------------------------------------------------+
+|   DOWNLOAD DE RELATORIOS (links para PDFs)                       |
++------------------------------------------------------------------+
+```
+
+### 4.6 Pagina de Publicacoes (`/publicacoes`)
+
+**Estrutura:**
+```
++------------------------------------------------------------------+
+|   HERO SECTION - "Publicacoes"                                   |
++------------------------------------------------------------------+
+|   FILTROS: [Todos] [Relatorios] [Estudos] [Guias] [Artigos]     |
++------------------------------------------------------------------+
+|                                                                   |
+|   LISTA DE PUBLICACOES                                           |
+|   +----------------------------------------------------------+   |
+|   | [Preview PDF thumbnail] | Titulo                          |   |
+|   |                         | Descricao                       |   |
+|   |                         | [Descarregar] [Ver Online]     |   |
+|   +----------------------------------------------------------+   |
+|                                                                   |
++------------------------------------------------------------------+
+```
+
+### 4.7 Pagina de Contacto (`/contacto`)
+
+**Estrutura:**
+```
++------------------------------------------------------------------+
+|   HERO SECTION - "Entre em Contacto"                             |
++------------------------------------------------------------------+
+|                                                                   |
+|   [MAPA Google]              | FORMULARIO DE CONTACTO           |
+|                              | Nome:                            |
+|   INFORMACOES DE CONTACTO    | Email:                           |
+|   - Endereco                 | Assunto:                         |
+|   - Telefone                 | Mensagem:                        |
+|   - Email                    | [Enviar]                         |
+|   - Redes Sociais            |                                  |
+|                                                                   |
++------------------------------------------------------------------+
+```
+
+### 4.8 Pagina "Tornar-se Membro" (`/membro`)
+
+**Estrutura:**
+```
++------------------------------------------------------------------+
+|   HERO SECTION - "Junte-se a Nos"                                |
++------------------------------------------------------------------+
+|                                                                   |
+|   BENEFICIOS DE SER MEMBRO                                       |
+|   - Acesso a formacoes exclusivas                                |
+|   - Participacao em eventos                                      |
+|   - Newsletter mensal                                            |
+|   - Certificados de participacao                                 |
+|                                                                   |
++------------------------------------------------------------------+
+|                                                                   |
+|   FORMULARIO DE ADESAO                                           |
+|   +----------------------------------------------------------+   |
+|   | Informacoes Pessoais                                      |   |
+|   | - Nome Completo*                                          |   |
+|   | - Email*                                                  |   |
+|   | - Telefone                                                |   |
+|   | - Provincia                                               |   |
+|   | - Idade                                                   |   |
+|   |                                                           |   |
+|   | Motivacao                                                 |   |
+|   | - Porque deseja tornar-se membro?                        |   |
+|   | - Como conheceu a CIBERCIDADAOS?                         |   |
+|   |                                                           |   |
+|   | [X] Aceito os termos e condicoes                         |   |
+|   | [X] Desejo receber comunicacoes                          |   |
+|   |                                                           |   |
+|   | [Submeter Candidatura]                                    |   |
+|   +----------------------------------------------------------+   |
+|                                                                   |
 +------------------------------------------------------------------+
 ```
 
 ---
 
-## Beneficios das Alteracoes
+## 5. Ficheiros a Criar
 
-1. **Identidade Visual Forte** - Logo maior e mais visivel no header
-2. **Harmonia no Footer** - Logo branco integra-se com fundo escuro
-3. **Menos Texto** - Remocao dos valores simplifica a leitura
-4. **Estrutura Tripla** - Missao, Visao, Objectivos em 3 cards equilibrados
-5. **Hierarquia de Cores** - Azul > Teal > Verde claramente definida
+| Ficheiro | Tipo | Descricao |
+|----------|------|-----------|
+| `src/pages/AboutCibercidadaos.tsx` | Pagina | Pagina completa sobre a organizacao |
+| `src/pages/Governance.tsx` | Pagina | Estrutura de governanca e equipa completa |
+| `src/pages/Activities.tsx` | Pagina | Lista de actividades com filtros |
+| `src/pages/ActivityDetail.tsx` | Pagina | Detalhe de uma actividade |
+| `src/pages/Data.tsx` | Pagina | Dashboard de dados com graficos |
+| `src/pages/Publications.tsx` | Pagina | Lista de publicacoes com preview |
+| `src/pages/Contact.tsx` | Pagina | Formulario e informacoes de contacto |
+| `src/pages/BecomeMember.tsx` | Pagina | Formulario de adesao |
+| `src/components/layout/PageHero.tsx` | Componente | Hero reutilizavel para paginas internas |
+| `src/components/layout/Breadcrumb.tsx` | Componente | Navegacao por migalhas |
 
 ---
 
-## Conteudo do Card Objectivos (Bilingue)
+## 6. Ficheiros a Modificar
 
-### Portugues
-Promover a literacia digital, fortalecer a participacao civica online, e defender os direitos digitais de todos os mocambicanos.
+| Ficheiro | Alteracao |
+|----------|-----------|
+| `src/App.tsx` | Adicionar todas as novas rotas |
+| `src/components/layout/Header.tsx` | Implementar dropdown no "Sobre Nos" |
+| `src/components/sections/AboutSection.tsx` | Simplificar, adicionar botao "Saiba Mais" |
+| `src/components/sections/TeamSection.tsx` | Limitar a 3 membros, adicionar botao |
+| `src/contexts/LanguageContext.tsx` | Adicionar traducoes para novas paginas |
+| `src/data/mockData.ts` | Adicionar dados para publicacoes |
 
-### Ingles
-To promote digital literacy, strengthen online civic participation, and defend the digital rights of all Mozambicans.
+---
+
+## 7. Estrutura de Rotas Final
+
+```typescript
+<Routes>
+  <Route path="/" element={<Index />} />
+  
+  {/* Sobre */}
+  <Route path="/sobre" element={<Navigate to="/sobre/cibercidadaos" />} />
+  <Route path="/sobre/cibercidadaos" element={<AboutCibercidadaos />} />
+  <Route path="/sobre/governanca" element={<Governance />} />
+  
+  {/* Actividades */}
+  <Route path="/actividades" element={<Activities />} />
+  <Route path="/actividades/:id" element={<ActivityDetail />} />
+  
+  {/* Dados */}
+  <Route path="/dados" element={<Data />} />
+  
+  {/* Publicacoes */}
+  <Route path="/publicacoes" element={<Publications />} />
+  
+  {/* Contacto */}
+  <Route path="/contacto" element={<Contact />} />
+  
+  {/* Membro */}
+  <Route path="/membro" element={<BecomeMember />} />
+  
+  {/* Catch-all */}
+  <Route path="*" element={<NotFound />} />
+</Routes>
+```
+
+---
+
+## 8. Dados Mock Adicionais
+
+### Publicacoes
+```typescript
+export interface Publication {
+  id: string;
+  title_pt: string;
+  title_en: string;
+  description_pt: string;
+  description_en: string;
+  type: 'report' | 'study' | 'guide' | 'article';
+  file_url: string;
+  thumbnail: string;
+  date: string;
+  pages: number;
+}
+
+export const publications: Publication[] = [
+  {
+    id: '1',
+    title_pt: 'Relatorio Anual 2023',
+    title_en: 'Annual Report 2023',
+    description_pt: 'Relatorio completo das actividades realizadas em 2023.',
+    description_en: 'Complete report of activities carried out in 2023.',
+    type: 'report',
+    file_url: '#',
+    thumbnail: '/placeholder.svg',
+    date: '2024-01-15',
+    pages: 48,
+  },
+  // ... mais publicacoes
+];
+```
+
+---
+
+## 9. Traducoes Adicionais
+
+Novas chaves a adicionar ao `LanguageContext.tsx`:
+
+```typescript
+// Submenus
+'nav.about.organization': 'Sobre Cibercidadaos' / 'About Cibercidadaos',
+'nav.about.governance': 'Estrutura de Governanca' / 'Governance Structure',
+
+// Sobre
+'about.learn_more': 'Saiba Mais' / 'Learn More',
+'about.history.title': 'Nossa Historia' / 'Our History',
+'about.models.title': 'Modelos de Actuacao' / 'Operating Models',
+
+// Equipa
+'team.meet_all': 'Conheca toda a equipa' / 'Meet the full team',
+
+// Publicacoes
+'publications.title': 'Publicacoes' / 'Publications',
+'publications.download': 'Descarregar' / 'Download',
+'publications.view': 'Ver Online' / 'View Online',
+
+// Contacto
+'contact.title': 'Entre em Contacto' / 'Get in Touch',
+'contact.form.name': 'Nome Completo' / 'Full Name',
+'contact.form.email': 'Email',
+'contact.form.subject': 'Assunto' / 'Subject',
+'contact.form.message': 'Mensagem' / 'Message',
+'contact.form.submit': 'Enviar' / 'Send',
+
+// Membro
+'member.title': 'Junte-se a Nos' / 'Join Us',
+'member.benefits': 'Beneficios de Ser Membro' / 'Member Benefits',
+'member.form.submit': 'Submeter Candidatura' / 'Submit Application',
+```
+
+---
+
+## 10. Prioridade de Implementacao
+
+**Fase 1 - Estrutura Base:**
+1. Criar componente PageHero reutilizavel
+2. Modificar Header com dropdown
+3. Simplificar AboutSection na homepage
+4. Simplificar TeamSection na homepage
+5. Actualizar App.tsx com rotas
+
+**Fase 2 - Paginas Sobre:**
+6. Criar AboutCibercidadaos.tsx
+7. Criar Governance.tsx
+
+**Fase 3 - Paginas de Conteudo:**
+8. Criar Activities.tsx
+9. Criar ActivityDetail.tsx
+10. Criar Publications.tsx
+
+**Fase 4 - Paginas de Interaccao:**
+11. Criar Data.tsx (com graficos)
+12. Criar Contact.tsx (com formulario)
+13. Criar BecomeMember.tsx (com formulario)
+
+---
+
+## 11. Beneficios da Reestruturacao
+
+1. **Homepage Leve** - Apenas introducao com links para mais detalhes
+2. **Navegacao Clara** - Submenus organizam informacao logicamente
+3. **Conteudo Profundo** - Paginas dedicadas para cada topico
+4. **Interactividade** - Formularios funcionais para contacto e adesao
+5. **SEO Melhorado** - Cada pagina com URL proprio
+6. **Escalabilidade** - Estrutura pronta para adicionar mais conteudo
+7. **UX Profissional** - Website institucional completo e funcional
+
