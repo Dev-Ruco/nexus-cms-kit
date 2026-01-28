@@ -1,281 +1,198 @@
 
 
-# Plano: Botao Dinamico de Autenticacao no Header
+# Plano: Corrigir Espaços Vazios na Hero Section
 
-## Resumo
+## Problema Identificado
 
-Implementar um botao inteligente no Header que alterna entre "Tornar-se Membro" (para novos visitantes) e "Entrar" (para utilizadores autenticados), com redireccionamento baseado na role do utilizador.
+A imagem da Hero Section está a deixar espaços vazios na parte inferior e lateral direita porque:
+
+1. **Container limitado**: O conteúdo está restrito a `max-w-7xl` (1280px), não preenchendo toda a largura
+2. **Imagem não estendida**: A imagem está contida dentro do grid e não se expande para as bordas
+3. **Padding inferior**: O container tem padding excessivo em baixo
+4. **Estrutura de grid**: A imagem está posicionada dentro do container em vez de se estender até às bordas
 
 ---
 
-## Fluxo de Utilizacao
+## Solucao Proposta
 
+Reestruturar a Hero Section para que a imagem preencha toda a area direita da secção, estendendo-se ate as bordas.
+
+### Alteracoes no Layout
+
+**Antes:**
 ```text
-VISITANTE NOVO                    UTILIZADOR AUTENTICADO
-     |                                      |
-     v                                      v
-[Tornar-se Membro]                    [Entrar]
-     |                                      |
-     v                                      v
- /membro                            Verifica Role
-(formulario de adesao)                      |
-     |                              +-------+-------+
-     v                              |               |
-Registo + Auto-login           Admin/Editor     Membro
-     |                              |               |
-     v                              v               v
-[Entrar] visivel              /admin      /member/portal
++------------------------------------------------------------------+
+|                          container-custom                         |
+|  +---------------------------+  +---------------------------+     |
+|  |  Texto                    |  |  Imagem (limitada)        |     |
+|  +---------------------------+  +---------------------------+     |
+|                                                                   |
+|                    [ESPACO VAZIO AQUI]                           |
++------------------------------------------------------------------+
 ```
 
----
-
-## Alteracoes Necessarias
-
-### 1. Header.tsx - Botao Dinamico
-
-**Logica:**
-- Importar `useAuth` e `useRole`
-- Se `user` existe: mostrar "Entrar" com icone de utilizador
-- Se `user` nao existe: mostrar "Tornar-se Membro"
-- Click em "Entrar" redireciona baseado na role
-
-**Exemplo Visual:**
-
+**Depois:**
 ```text
-Desktop (nao autenticado):
-[Logo] [Menu...] [Tornar-se Membro] [PT]
-
-Desktop (autenticado):
-[Logo] [Menu...] [Joao Silva ▼] [PT]
-                      |
-                  Dropdown:
-                  - Minha Area
-                  - Terminar Sessao
-
-Mobile (autenticado):
-Menu mobile com:
-- Items de navegacao
-- Separador
-- Minha Area
-- Terminar Sessao
++------------------------------------------------------------------+
+|  container-custom (texto) |       Imagem (estendida ate borda)   |
+|  +-----------------------+ |                                      |
+|  |  Texto                | |        IMAGEM PREENCHE               |
+|  +-----------------------+ |        TODA A AREA                   |
+|                            |                                      |
++------------------------------------------------------------------+
 ```
-
-### 2. Redireccionamento Pos-Login
-
-Na pagina de Login, apos autenticacao bem sucedida, verificar roles e redirecionar:
-
-```typescript
-// Logica de redireccionamento
-if (isAdmin || isEditor || isModerator) {
-  navigate('/admin');
-} else if (isMember) {
-  navigate('/member/portal');
-} else {
-  navigate('/'); // Default para utilizadores sem role especifica
-}
-```
-
-### 3. BecomeMember.tsx - Registo com Auto-Login
-
-Converter o formulario de adesao para:
-1. Criar conta no Supabase Auth
-2. Criar registo na tabela `members` com status "pending"
-3. Utilizador fica automaticamente autenticado
-4. Redireciona para portal de membro (com mensagem de "aguardar aprovacao")
 
 ---
 
-## Detalhes Tecnicos
+## Alteracoes Tecnicas
 
-### 3.1 Novas Traducoes
+### 1. Reestruturar o Grid
+
+Mover a imagem para fora do container limitado, criando um layout de duas colunas onde:
+- Coluna esquerda: container com texto (mantém padding)
+- Coluna direita: imagem que se estende até à borda direita
 
 ```typescript
-// Adicionar ao LanguageContext
-'nav.enter': 'Entrar',
-'nav.my_area': 'Minha Area',
-'nav.dashboard': 'Painel de Controlo',
-'nav.member_portal': 'Portal do Membro',
+<section className="relative min-h-[75vh] lg:min-h-[80vh] overflow-hidden bg-primary">
+  {/* Grid de 2 colunas a nivel de secção */}
+  <div className="grid lg:grid-cols-2 min-h-[inherit]">
+    
+    {/* Coluna Esquerda - Texto com container */}
+    <div className="flex items-center">
+      <div className="container-custom py-20 md:py-24 lg:py-0 lg:pr-8">
+        {/* Conteudo de texto */}
+      </div>
+    </div>
+    
+    {/* Coluna Direita - Imagem ate a borda */}
+    <div className="relative h-full min-h-[400px] lg:min-h-full">
+      <img 
+        src={heroImage}
+        className="absolute inset-0 w-full h-full object-cover object-top"
+      />
+      {/* Cards e elementos sobrepostos */}
+    </div>
+    
+  </div>
+</section>
 ```
 
-### 3.2 Componente AuthButton (novo)
+### 2. Ajustar Posicionamento da Imagem
 
-Componente reutilizavel para o Header:
+- Usar `absolute inset-0` para a imagem preencher todo o container pai
+- Usar `object-cover object-top` para manter foco nos rostos
+- Remover `min-h-[500px]` e deixar a imagem preencher naturalmente
+
+### 3. Reposicionar Elementos Decorativos
+
+- Mover os circulos decorativos para a camada de fundo da seccao inteira
+- Ajustar posicoes para ficarem visiveis com a nova estrutura
+
+### 4. Ajustar Card "EM DESTAQUE"
+
+- Manter posicao absoluta mas ajustar coordenadas
+- Garantir que fica visivel sobre a imagem
+
+---
+
+## Ficheiro a Modificar
+
+| Ficheiro | Alteracao |
+|----------|-----------|
+| `src/components/sections/HeroSection.tsx` | Reestruturar layout do grid |
+
+---
+
+## Codigo Actualizado
 
 ```typescript
-function AuthButton() {
-  const { user, signOut } = useAuth();
-  const { isAdmin, isEditor, isModerator, isMember, loading } = useRole();
+export function HeroSection() {
   const { t } = useLanguage();
-  
-  if (loading) return <Skeleton />;
-  
-  if (!user) {
-    return (
-      <Button asChild>
-        <Link to="/membro">{t('nav.become_member')}</Link>
-      </Button>
-    );
-  }
-  
-  const dashboardPath = (isAdmin || isEditor || isModerator) 
-    ? '/admin' 
-    : '/member/portal';
-  
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Avatar />
-        {user.user_metadata?.full_name || user.email}
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuItem>
-          <Link to={dashboardPath}>{t('nav.my_area')}</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={signOut}>
-          {t('auth.logout')}
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <section className="relative min-h-[75vh] lg:min-h-[80vh] overflow-hidden bg-primary">
+      {/* Circulos Decorativos - Camada de fundo */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* ... mantém círculos existentes ... */}
+      </div>
+
+      {/* Grid Principal - Full width */}
+      <div className="grid lg:grid-cols-2 min-h-[inherit] relative z-10">
+        
+        {/* Coluna Esquerda - Texto */}
+        <div className="flex items-center pt-24 lg:pt-0">
+          <div className="px-4 sm:px-6 lg:px-8 xl:pl-[max(2rem,calc((100vw-80rem)/2+2rem))] py-16 lg:py-0 max-w-2xl">
+            {/* ... conteúdo de texto mantido ... */}
+          </div>
+        </div>
+        
+        {/* Coluna Direita - Imagem Full Height */}
+        <div className="relative min-h-[350px] lg:min-h-full order-first lg:order-last">
+          <img
+            src={heroImage}
+            alt="Jovens moçambicanos com smartphone"
+            className="absolute inset-0 w-full h-full object-cover object-[center_20%]"
+          />
+          
+          {/* WiFi Icon */}
+          <motion.div className="absolute top-8 right-8 z-20">
+            <Wifi className="w-16 h-16 text-secondary/90" />
+          </motion.div>
+          
+          {/* Card EM DESTAQUE */}
+          <motion.div className="absolute bottom-8 right-8 md:right-16 z-20">
+            {/* ... card mantido ... */}
+          </motion.div>
+        </div>
+        
+      </div>
+
+      {/* Scroll Indicator - mantido */}
+    </section>
   );
 }
 ```
 
-### 3.3 Fluxo de Registo Actualizado
+---
 
-```typescript
-// BecomeMember.tsx - Novo fluxo
-const handleSubmit = async (formData) => {
-  // 1. Criar conta no Supabase Auth
-  const { data, error } = await supabase.auth.signUp({
-    email: formData.email,
-    password: formData.password, // Novo campo necessario
-    options: {
-      data: { full_name: formData.name }
-    }
-  });
-  
-  if (error) { handleError(); return; }
-  
-  // 2. Criar registo na tabela members
-  await supabase.from('members').insert({
-    user_id: data.user.id,
-    full_name: formData.name,
-    email: formData.email,
-    phone: formData.phone,
-    province: formData.province,
-    status: 'pending' // Aguarda aprovacao
-  });
-  
-  // 3. Utilizador ja esta autenticado (auto-login)
-  // 4. Redirecionar para portal
-  navigate('/member/portal');
-};
-```
+## Ajustes de CSS
+
+### Object Position
+
+Usar `object-[center_20%]` em vez de `object-top` para:
+- Focar nos rostos sem cortar cabeças
+- Preencher melhor a área vertical
+
+### Responsividade
+
+- Mobile: Imagem aparece primeiro (order-first), depois texto
+- Desktop: Texto à esquerda, imagem à direita (order-last)
 
 ---
 
-## Ficheiros a Modificar
-
-| Ficheiro | Alteracao |
-|----------|-----------|
-| `src/components/layout/Header.tsx` | Adicionar logica de autenticacao e botao dinamico |
-| `src/pages/BecomeMember.tsx` | Converter para registo real com Supabase |
-| `src/pages/auth/Login.tsx` | Melhorar redireccionamento baseado em roles |
-| `src/contexts/LanguageContext.tsx` | Adicionar novas traducoes |
-
----
-
-## Ficheiros a Criar
-
-| Ficheiro | Descricao |
-|----------|-----------|
-| `src/pages/member/Portal.tsx` | Portal basico do membro (placeholder) |
-
----
-
-## Layout do Botao no Header
-
-### Desktop - Nao Autenticado
-```text
-+------------------------------------------------------------------+
-| [Logo]  [Inicio] [Sobre ▼] [Actividades] ... [Tornar-se Membro] [PT] |
-+------------------------------------------------------------------+
-                                               ^^^^^^^^^^^^^^^^^
-                                               Botao CTA verde
-```
-
-### Desktop - Autenticado
-```text
-+------------------------------------------------------------------+
-| [Logo]  [Inicio] [Sobre ▼] [Actividades] ... [👤 Nome ▼] [PT]    |
-+------------------------------------------------------------------+
-                                               ^^^^^^^^^^^
-                                               Dropdown menu
-```
-
-### Mobile - Autenticado
-```text
-Menu expandido:
-+------------------+
-| Inicio           |
-| Sobre Nos ▼      |
-| Actividades      |
-| ...              |
-| ──────────────── |
-| 👤 Minha Area    |
-| 🚪 Terminar Sessao|
-+------------------+
-```
-
----
-
-## Campos Adicionais no Formulario de Adesao
-
-O formulario actual nao tem campo de password. Sera necessario adicionar:
-
-1. Campo de password
-2. Campo de confirmacao de password
-3. Validacao de password (minimo 6 caracteres)
-
-Isto permite que o utilizador crie uma conta real durante a adesao.
-
----
-
-## Estados de Membro
-
-Apos registo, o membro tera status "pending". No portal:
+## Resultado Visual Esperado
 
 ```text
 +------------------------------------------------------------------+
-|  PORTAL DO MEMBRO                                                |
-+------------------------------------------------------------------+
-|                                                                   |
-|  [⏳] A Sua Candidatura Esta em Analise                          |
-|                                                                   |
-|  Obrigado por se juntar a CIBERCIDADAOS!                         |
-|  A sua candidatura esta a ser analisada pela nossa equipa.       |
-|  Sera notificado por email quando for aprovado.                  |
-|                                                                   |
-|  Enquanto aguarda, pode:                                         |
-|  - Ver proximos eventos                                          |
-|  - Ler as nossas publicacoes                                     |
-|                                                                   |
+|  TEXTO                    |            IMAGEM                    |
+|  +-----------------------+ |  +--------------------------------+ |
+|  | [dot] Cidadania...    | |  |                                | |
+|  |                       | |  |     IMAGEM PREENCHE            | |
+|  | Promovendo a          | |  |     TODA A ÁREA               | |
+|  | Literacia Digital     | |  |     SEM ESPAÇOS VAZIOS        | |
+|  |                       | |  |                                | |
+|  | [Saiba Mais]          | |  |     [WiFi]                    | |
+|  |                       | |  |              [EM DESTAQUE]    | |
+|  +-----------------------+ |  +--------------------------------+ |
 +------------------------------------------------------------------+
 ```
-
-Apos aprovacao:
-- Recebe role "member"
-- Portal mostra opcoes de pagamento de quotas
-- Historico de pagamentos
-- Notificacoes de eventos
 
 ---
 
 ## Beneficios
 
-1. **UX Intuitiva** - Botao muda automaticamente consoante estado
-2. **Fluxo Simplificado** - Registo e adesao num unico passo
-3. **Auto-Login** - Utilizador nao precisa fazer login separadamente
-4. **Redireccionamento Inteligente** - Cada tipo de utilizador vai para a area correcta
-5. **Consistencia** - Mesmo comportamento em desktop e mobile
+1. **Sem espacos vazios** - Imagem preenche toda a área direita
+2. **Visual mais impactante** - Layout edge-to-edge moderno
+3. **Melhor responsividade** - Adapta-se bem a diferentes tamanhos
+4. **Mantém elementos** - Círculos, cards e ícones continuam visíveis
 
