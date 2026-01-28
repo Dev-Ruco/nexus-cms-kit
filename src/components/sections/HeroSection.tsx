@@ -9,35 +9,49 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-[75vh] lg:min-h-[80vh] overflow-hidden bg-primary">
-      {/* Decorative Circles - Background layer */}
+      {/* Decorative Circles - Background layer with BRAND COLORS */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Coral Grande - behind group, center-left */}
+        {/* Teal Grande - Top center-left, principal destaque */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.2 }}
-          className="absolute top-16 right-[40%] w-80 h-80 bg-orange-500/75 rounded-full blur-lg z-0"
+          className="absolute top-8 right-[35%] w-96 h-96 bg-secondary/60 rounded-full blur-xl z-0"
         />
-        {/* Blue Medium - top right */}
+        {/* Verde Grande - Bottom right */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.3 }}
-          className="absolute top-4 right-[20%] w-56 h-56 bg-blue-600/70 rounded-full blur-md z-0"
+          className="absolute bottom-0 right-[-5%] w-80 h-80 bg-accent/50 rounded-full blur-xl z-0"
         />
-        {/* Yellow Large - right side, lower */}
+        {/* Teal Medio - Top right */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="absolute bottom-10 right-[0%] w-72 h-72 bg-yellow-400/75 rounded-full blur-lg z-0"
+          className="absolute top-4 right-[15%] w-60 h-60 bg-secondary/70 rounded-full blur-lg z-0"
         />
-        {/* Green/Teal Small - bottom right accent */}
+        {/* Verde Medio - Center left, atras da imagem */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="absolute bottom-24 right-[12%] w-40 h-40 bg-emerald-500/65 rounded-full blur-md z-0"
+          className="absolute top-1/3 right-[45%] w-52 h-52 bg-accent/55 rounded-full blur-lg z-0"
+        />
+        {/* Branco Pequeno - Top left accent */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="absolute top-20 right-[55%] w-32 h-32 bg-white/25 rounded-full blur-md z-0"
+        />
+        {/* Teal Solido Pequeno - Bottom accent, sem blur */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.7 }}
+          className="absolute bottom-32 right-[25%] w-20 h-20 bg-secondary/80 rounded-full z-0"
         />
       </div>
 
