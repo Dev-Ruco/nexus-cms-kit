@@ -1,97 +1,167 @@
 
 
-# Plano: Corrigir Espaços Vazios na Hero Section
+# Plano: Adicionar Circulos Decorativos com Cores da Marca
 
-## Problema Identificado
+## Analise da Referencia
 
-A imagem da Hero Section está a deixar espaços vazios na parte inferior e lateral direita porque:
-
-1. **Container limitado**: O conteúdo está restrito a `max-w-7xl` (1280px), não preenchendo toda a largura
-2. **Imagem não estendida**: A imagem está contida dentro do grid e não se expande para as bordas
-3. **Padding inferior**: O container tem padding excessivo em baixo
-4. **Estrutura de grid**: A imagem está posicionada dentro do container em vez de se estender até às bordas
+A imagem de referencia mostra circulos coloridos sobrepostos por detras da fotografia, criando profundidade e destaque visual. Vou adaptar este conceito usando EXCLUSIVAMENTE as cores da paleta do logotipo CIBERCIDADAOS.
 
 ---
 
-## Solucao Proposta
+## Paleta de Cores a Usar
 
-Reestruturar a Hero Section para que a imagem preencha toda a area direita da secção, estendendo-se ate as bordas.
+| Cor | Codigo | Uso nos Circulos |
+|-----|--------|------------------|
+| Azul Escuro (Primary) | `#001A3D` | Circulo grande de fundo |
+| Teal (Secondary) | `#00A3A4` | Circulos de destaque principal |
+| Verde (Accent) | `#00D1B2` | Circulos de accent menor |
+| Branco | `#FFFFFF` | Pequenos detalhes/dots |
 
-### Alteracoes no Layout
+**Nota:** Os circulos actuais usam cores FORA da paleta (orange-500, blue-600, yellow-400, emerald-500). Estes serao substituidos pelas cores institucionais.
 
-**Antes:**
+---
+
+## Desenho dos Circulos
+
+Inspirado na referencia, vou criar uma composicao de circulos sobrepostos:
+
 ```text
-+------------------------------------------------------------------+
-|                          container-custom                         |
-|  +---------------------------+  +---------------------------+     |
-|  |  Texto                    |  |  Imagem (limitada)        |     |
-|  +---------------------------+  +---------------------------+     |
-|                                                                   |
-|                    [ESPACO VAZIO AQUI]                           |
-+------------------------------------------------------------------+
+                     +---------------+
+    [Teal Grande]    |               |
+         O           |   IMAGEM      |
+    [Verde Medio]    |   PRINCIPAL   |
+       o             |               |
+  [Azul Claro]       |               |
+      O              +---------------+
+         [Teal Pequeno]
+              o
 ```
 
-**Depois:**
-```text
-+------------------------------------------------------------------+
-|  container-custom (texto) |       Imagem (estendida ate borda)   |
-|  +-----------------------+ |                                      |
-|  |  Texto                | |        IMAGEM PREENCHE               |
-|  +-----------------------+ |        TODA A AREA                   |
-|                            |                                      |
-+------------------------------------------------------------------+
-```
+### Configuracao dos Circulos
+
+| Circulo | Tamanho | Cor | Posicao | Efeito |
+|---------|---------|-----|---------|--------|
+| Grande 1 | 400px | Teal (#00A3A4) 60% | Top center-left | blur-lg |
+| Grande 2 | 320px | Verde (#00D1B2) 50% | Bottom right | blur-lg |
+| Medio 1 | 240px | Teal (#00A3A4) 70% | Top right | blur-md |
+| Medio 2 | 200px | Verde (#00D1B2) 55% | Center left | blur-md |
+| Pequeno 1 | 120px | Branco 30% | Top left | blur-sm |
+| Pequeno 2 | 80px | Teal 80% | Bottom center | sem blur (solido) |
 
 ---
 
 ## Alteracoes Tecnicas
 
-### 1. Reestruturar o Grid
-
-Mover a imagem para fora do container limitado, criando um layout de duas colunas onde:
-- Coluna esquerda: container com texto (mantém padding)
-- Coluna direita: imagem que se estende até à borda direita
-
-```typescript
-<section className="relative min-h-[75vh] lg:min-h-[80vh] overflow-hidden bg-primary">
-  {/* Grid de 2 colunas a nivel de secção */}
-  <div className="grid lg:grid-cols-2 min-h-[inherit]">
-    
-    {/* Coluna Esquerda - Texto com container */}
-    <div className="flex items-center">
-      <div className="container-custom py-20 md:py-24 lg:py-0 lg:pr-8">
-        {/* Conteudo de texto */}
-      </div>
-    </div>
-    
-    {/* Coluna Direita - Imagem ate a borda */}
-    <div className="relative h-full min-h-[400px] lg:min-h-full">
-      <img 
-        src={heroImage}
-        className="absolute inset-0 w-full h-full object-cover object-top"
-      />
-      {/* Cards e elementos sobrepostos */}
-    </div>
-    
-  </div>
-</section>
+### Antes (cores incorrectas):
+```tsx
+// Coral
+<div className="bg-orange-500/75" />
+// Azul generico
+<div className="bg-blue-600/70" />
+// Amarelo
+<div className="bg-yellow-400/75" />
+// Verde generico
+<div className="bg-emerald-500/65" />
 ```
 
-### 2. Ajustar Posicionamento da Imagem
+### Depois (cores da marca):
+```tsx
+// Teal Grande
+<div className="bg-[#00A3A4]/60" />
+// Verde Accent
+<div className="bg-[#00D1B2]/50" />
+// Teal Medio
+<div className="bg-secondary/70" />
+// Verde Accent Medio
+<div className="bg-accent/55" />
+```
 
-- Usar `absolute inset-0` para a imagem preencher todo o container pai
-- Usar `object-cover object-top` para manter foco nos rostos
-- Remover `min-h-[500px]` e deixar a imagem preencher naturalmente
+---
 
-### 3. Reposicionar Elementos Decorativos
+## Codigo Actualizado
 
-- Mover os circulos decorativos para a camada de fundo da seccao inteira
-- Ajustar posicoes para ficarem visiveis com a nova estrutura
+```tsx
+{/* Decorative Circles - Background layer with BRAND COLORS */}
+<div className="absolute inset-0 overflow-hidden pointer-events-none">
+  
+  {/* Teal Grande - Top center-left, principal destaque */}
+  <motion.div
+    initial={{ opacity: 0, scale: 0.8 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 1, delay: 0.2 }}
+    className="absolute top-8 right-[35%] w-96 h-96 bg-secondary/60 rounded-full blur-xl z-0"
+  />
+  
+  {/* Verde Grande - Bottom right */}
+  <motion.div
+    initial={{ opacity: 0, scale: 0.8 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 1, delay: 0.3 }}
+    className="absolute bottom-0 right-[-5%] w-80 h-80 bg-accent/50 rounded-full blur-xl z-0"
+  />
+  
+  {/* Teal Medio - Top right */}
+  <motion.div
+    initial={{ opacity: 0, scale: 0.8 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 1, delay: 0.4 }}
+    className="absolute top-4 right-[15%] w-60 h-60 bg-secondary/70 rounded-full blur-lg z-0"
+  />
+  
+  {/* Verde Medio - Center left, atras da imagem */}
+  <motion.div
+    initial={{ opacity: 0, scale: 0.8 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 1, delay: 0.5 }}
+    className="absolute top-1/3 right-[45%] w-52 h-52 bg-accent/55 rounded-full blur-lg z-0"
+  />
+  
+  {/* Branco Pequeno - Top left accent */}
+  <motion.div
+    initial={{ opacity: 0, scale: 0.8 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.8, delay: 0.6 }}
+    className="absolute top-20 right-[55%] w-32 h-32 bg-white/25 rounded-full blur-md z-0"
+  />
+  
+  {/* Teal Solido Pequeno - Bottom accent, sem blur */}
+  <motion.div
+    initial={{ opacity: 0, scale: 0.8 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.8, delay: 0.7 }}
+    className="absolute bottom-32 right-[25%] w-20 h-20 bg-secondary/80 rounded-full z-0"
+  />
+  
+</div>
+```
 
-### 4. Ajustar Card "EM DESTAQUE"
+---
 
-- Manter posicao absoluta mas ajustar coordenadas
-- Garantir que fica visivel sobre a imagem
+## Comparacao Visual
+
+**Antes:**
+```text
++------------------------------------------------------------------+
+|  [Laranja]   [Azul]        IMAGEM                                |
+|      O         O                                                  |
+|                                                                   |
+|           [Amarelo]  [Verde]                                     |
++------------------------------------------------------------------+
+   Cores fora da paleta da marca
+```
+
+**Depois:**
+```text
++------------------------------------------------------------------+
+|  [Branco]  [Teal]          IMAGEM                                |
+|    o         O                                                    |
+|       [Verde]                                                     |
+|          o      [Teal solido]                                    |
+|                     o                                             |
+|              [Verde Grande]                                       |
++------------------------------------------------------------------+
+   Cores 100% institucionais (Teal + Verde + Branco)
+```
 
 ---
 
@@ -99,100 +169,14 @@ Mover a imagem para fora do container limitado, criando um layout de duas coluna
 
 | Ficheiro | Alteracao |
 |----------|-----------|
-| `src/components/sections/HeroSection.tsx` | Reestruturar layout do grid |
-
----
-
-## Codigo Actualizado
-
-```typescript
-export function HeroSection() {
-  const { t } = useLanguage();
-
-  return (
-    <section className="relative min-h-[75vh] lg:min-h-[80vh] overflow-hidden bg-primary">
-      {/* Circulos Decorativos - Camada de fundo */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* ... mantém círculos existentes ... */}
-      </div>
-
-      {/* Grid Principal - Full width */}
-      <div className="grid lg:grid-cols-2 min-h-[inherit] relative z-10">
-        
-        {/* Coluna Esquerda - Texto */}
-        <div className="flex items-center pt-24 lg:pt-0">
-          <div className="px-4 sm:px-6 lg:px-8 xl:pl-[max(2rem,calc((100vw-80rem)/2+2rem))] py-16 lg:py-0 max-w-2xl">
-            {/* ... conteúdo de texto mantido ... */}
-          </div>
-        </div>
-        
-        {/* Coluna Direita - Imagem Full Height */}
-        <div className="relative min-h-[350px] lg:min-h-full order-first lg:order-last">
-          <img
-            src={heroImage}
-            alt="Jovens moçambicanos com smartphone"
-            className="absolute inset-0 w-full h-full object-cover object-[center_20%]"
-          />
-          
-          {/* WiFi Icon */}
-          <motion.div className="absolute top-8 right-8 z-20">
-            <Wifi className="w-16 h-16 text-secondary/90" />
-          </motion.div>
-          
-          {/* Card EM DESTAQUE */}
-          <motion.div className="absolute bottom-8 right-8 md:right-16 z-20">
-            {/* ... card mantido ... */}
-          </motion.div>
-        </div>
-        
-      </div>
-
-      {/* Scroll Indicator - mantido */}
-    </section>
-  );
-}
-```
-
----
-
-## Ajustes de CSS
-
-### Object Position
-
-Usar `object-[center_20%]` em vez de `object-top` para:
-- Focar nos rostos sem cortar cabeças
-- Preencher melhor a área vertical
-
-### Responsividade
-
-- Mobile: Imagem aparece primeiro (order-first), depois texto
-- Desktop: Texto à esquerda, imagem à direita (order-last)
-
----
-
-## Resultado Visual Esperado
-
-```text
-+------------------------------------------------------------------+
-|  TEXTO                    |            IMAGEM                    |
-|  +-----------------------+ |  +--------------------------------+ |
-|  | [dot] Cidadania...    | |  |                                | |
-|  |                       | |  |     IMAGEM PREENCHE            | |
-|  | Promovendo a          | |  |     TODA A ÁREA               | |
-|  | Literacia Digital     | |  |     SEM ESPAÇOS VAZIOS        | |
-|  |                       | |  |                                | |
-|  | [Saiba Mais]          | |  |     [WiFi]                    | |
-|  |                       | |  |              [EM DESTAQUE]    | |
-|  +-----------------------+ |  +--------------------------------+ |
-+------------------------------------------------------------------+
-```
+| `src/components/sections/HeroSection.tsx` | Substituir cores dos circulos decorativos |
 
 ---
 
 ## Beneficios
 
-1. **Sem espacos vazios** - Imagem preenche toda a área direita
-2. **Visual mais impactante** - Layout edge-to-edge moderno
-3. **Melhor responsividade** - Adapta-se bem a diferentes tamanhos
-4. **Mantém elementos** - Círculos, cards e ícones continuam visíveis
+1. **Coerencia Visual** - Circulos usam apenas cores da marca
+2. **Identidade Forte** - Reforça as cores institucionais (Teal e Verde)
+3. **Destaque Elegante** - Efeito de profundidade atras da fotografia
+4. **Animacao Suave** - Circulos aparecem com fade e scale animados
 
